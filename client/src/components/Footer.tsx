@@ -4,36 +4,6 @@ export default function Footer() {
   return (
     <footer className="border-t bg-card/30">
       <div className="container mx-auto max-w-6xl px-4 py-16">
-        {/* Top section with navigation links arranged around central concept */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div>
-            <h3 className="font-semibold mb-4" data-testid="title-product">Produkt</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-features-footer">Funktionen</a></li>
-              <li><a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-pricing-footer">Preise</a></li>
-              <li><a href="#cases" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-cases-footer">Referenzen</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-4" data-testid="title-company">Unternehmen</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">Über uns</a></li>
-              <li><a href="#kontakt" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-contact">Kontakt</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-blog">Blog</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-4" data-testid="title-legal">Rechtliches</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Datenschutz</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-imprint">Impressum</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">AGB</a></li>
-            </ul>
-          </div>
-        </div>
-        
         {/* Central logo section - much larger and prominent */}
         <div className="flex flex-col items-center gap-8 py-8">
           <div className="flex flex-col items-center">
@@ -64,6 +34,36 @@ export default function Footer() {
             <p className="text-base text-muted-foreground" data-testid="text-gdpr">
               DSGVO-konform
             </p>
+          </div>
+        </div>
+        
+        {/* Navigation links in one line under logo */}
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div>
+            <h3 className="font-semibold mb-4" data-testid="title-product">Produkt</h3>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-features-footer">Funktionen</a></li>
+              <li><a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-pricing-footer">Preise</a></li>
+              <li><a href="#cases" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-cases-footer">Referenzen</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="font-semibold mb-4" data-testid="title-company">Unternehmen</h3>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">Über uns</a></li>
+              <li><a href="#kontakt" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-contact">Kontakt</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-blog">Blog</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="font-semibold mb-4" data-testid="title-legal">Rechtliches</h3>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Datenschutz</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-imprint">Impressum</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">AGB</a></li>
+            </ul>
           </div>
         </div>
         
