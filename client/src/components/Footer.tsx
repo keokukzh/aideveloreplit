@@ -1,4 +1,5 @@
 import signatureLogoImage from "@assets/IMG_0831 (3)_1758861135123.png";
+import aidLogoImage from "@assets/logo-wrdmark_1758869353800.png";
 
 export default function Footer() {
   return (
@@ -6,14 +7,26 @@ export default function Footer() {
       <div className="container mx-auto max-w-6xl px-4 py-16">
         {/* Central logo section - much larger and prominent */}
         <div className="flex flex-col items-center gap-8 py-8">
-          <div className="flex flex-col items-center">
-            <img 
-              src={signatureLogoImage} 
-              alt="AIDevelo.AI Signature" 
-              className="h-24 lg:h-32 w-auto invert dark:invert-0 transition-all duration-300 hover:scale-105"
-              data-testid="img-footer-signature"
-            />
-            <div className="w-24 lg:w-32 h-0.5 bg-primary mt-4"></div>
+          <div className="flex flex-col items-center gap-6">
+            {/* AID Logo as primary brand mark */}
+            <div className="flex items-center justify-center">
+              <img 
+                src={aidLogoImage} 
+                alt="AID Logo" 
+                className="h-24 lg:h-28 w-auto transition-all duration-300 hover:scale-105"
+                data-testid="img-footer-aid-logo"
+              />
+            </div>
+            {/* Signature logo below */}
+            <div className="flex flex-col items-center">
+              <img 
+                src={signatureLogoImage} 
+                alt="AIDevelo.AI Signature" 
+                className="h-16 lg:h-20 w-auto opacity-80 invert dark:invert-0 transition-all duration-300 hover:scale-105"
+                data-testid="img-footer-signature"
+              />
+              <div className="w-16 lg:w-20 h-0.5 bg-primary mt-4"></div>
+            </div>
           </div>
           
           {/* Tagline prominently displayed under logo */}
