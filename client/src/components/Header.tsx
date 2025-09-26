@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
 import signatureLogoImage from "@assets/IMG_0950_1758859780928.png";
-import aidLogoImage from "@assets/logo-wrdmark_1758869353800.png";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,18 +11,11 @@ export default function Header() {
     <header className="sticky top-0 z-50 glass-intense border-b border-white/10">
       <div className="container mx-auto max-w-6xl">
         <nav className="flex h-20 items-center justify-between px-4">
-          <div className="flex items-center gap-3">
-            <img 
-              src={aidLogoImage} 
-              alt="AID Logo" 
-              className="h-8 w-auto magnetic hover:scale-110 transition-transform duration-300"
-              data-testid="img-aid-logo"
-            />
-            <div className="hidden sm:block w-px h-8 bg-border"></div>
+          <div className="flex items-center">
             <img 
               src={mainLogoImage} 
-              alt="AIDevelo.AI" 
-              className="h-10 w-auto magnetic hover:scale-110 transition-transform duration-300"
+              alt="AIDevelo.AI Logo" 
+              className="h-12 w-auto magnetic hover:scale-110 transition-transform duration-300"
               data-testid="img-logo"
             />
           </div>
