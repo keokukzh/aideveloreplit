@@ -9,11 +9,12 @@ const productPortfolio = [
     icon: MessageCircle,
     badge: "Support",
     title: "Multichannel-Kundensupport",
-    description: "KI-Chat- & Voice-Agenten, branchenspezifisch anpassbar.",
+    description: "KI-Chat- & Voice-Agenten mit intelligenter Gesprächsführung.",
     features: [
-      "KI-Chat- & Voice-Agenten",
-      "Branchenspezifisch anpassbar", 
-      "Lernt aus Interaktionen und optimiert Antworten automatisch"
+      "KI-Chat- & Voice-Agenten mit natürlicher Sprachverarbeitung",
+      "Automatische E-Mail-Antworten und Follow-up-Generierung", 
+      "Intelligente Ticket-Kategorisierung und Weiterleitung",
+      "24/7 Multilingual Support mit Echtzeit-Übersetzung"
     ]
   },
   {
@@ -31,11 +32,12 @@ const productPortfolio = [
     icon: BarChart3,
     badge: "Analytics",
     title: "Content & Datenanalyse",
-    description: "Marketing-Content-Erstellung und datengetriebene Entscheidungen.",
+    description: "Generative KI für Content-Erstellung und intelligente Geschäftseinblicke.",
     features: [
-      "Automatisierte Marketing-Content-Erstellung",
-      "Datenanalyse mit automatisch generierten Berichten",
-      "Unterstützung für datengetriebene Entscheidungen"
+      "Blog-Posts, Social Media Content und SEO-optimierte Texte",
+      "Personalisierte E-Mail-Kampagnen und Kundenansprache",
+      "Automatische Berichtserstellung und Trend-Analyse",
+      "Meeting-Zusammenfassungen und Dokumenten-Generierung"
     ]
   },
   {
@@ -52,11 +54,13 @@ const productPortfolio = [
   {
     icon: Plus,
     badge: "Extras",
-    title: "Zusatzmodule",
-    description: "Kundenfeedback-Analyse und intelligente Vertriebsunterstützung.",
+    title: "Sales & Lead-Generierung",
+    description: "KI-gestützte Vertriebsoptimierung und Lead-Qualifizierung.",
     features: [
-      "Kundenfeedback-Analyse (Auswertung von Bewertungen & Trends)",
-      "Vertriebsunterstützung (Lead-Priorisierung, personalisierte E-Mails)"
+      "Automatische Angebotserstellung basierend auf Kundenanforderungen",
+      "Intelligente Lead-Bewertung und Priorisierung",
+      "Personalisierte Verkaufspräsentationen und Proposals",
+      "Predictive Sales Forecasting und Pipeline-Management"
     ]
   }
 ];
