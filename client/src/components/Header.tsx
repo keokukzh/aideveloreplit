@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import futuristicLogo from "@assets/Gemini_Generated_Image_1zudlk1zudlk1zud_1758862154117.png";
+import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
+import signatureLogoImage from "@assets/IMG_0950_1758859780928.png";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,14 +12,11 @@ export default function Header() {
       <div className="container mx-auto max-w-6xl">
         <nav className="flex h-20 items-center justify-between px-4">
           <div className="flex items-center">
-            <motion.img 
-              layoutId="brand-logo"
-              src={futuristicLogo} 
+            <img 
+              src={mainLogoImage} 
               alt="AIDevelo.AI Logo" 
-              className="h-12 w-auto cursor-pointer"
+              className="h-12 w-auto"
               data-testid="img-logo"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             />
           </div>
           
