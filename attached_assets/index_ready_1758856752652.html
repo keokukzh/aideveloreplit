@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>AIDevelo.AI – Mehr Aufträge. Automatisch. Mit AI.</title>
+<meta content="Leads generieren, Vertrauen aufbauen, Abschlüsse fördern. 14 Tage kostenlos testen." name="description"/>
+<meta content="#0f0f0f" name="theme-color"/>
+<link href="/assets/favicon.ico" rel="icon"/>
+<link href="https://www.aidevelo.ai/" rel="canonical"/>
+<!-- Open Graph / Twitter -->
+<meta content="website" property="og:type"/>
+<meta content="AIDevelo.AI – Mehr Aufträge. Automatisch. Mit AI." property="og:title"/>
+<meta content="Leads generieren, Vertrauen aufbauen, Abschlüsse fördern. 14 Tage kostenlos testen." property="og:description"/>
+<meta content="https://www.aidevelo.ai/assets/og_cover.jpg" property="og:image"/>
+<meta content="https://www.aidevelo.ai/" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="AIDevelo.AI – Mehr Aufträge. Automatisch. Mit AI." name="twitter:title"/>
+<meta content="Leads generieren, Vertrauen aufbauen, Abschlüsse fördern. 14 Tage kostenlos testen." name="twitter:description"/>
+<meta content="https://www.aidevelo.ai/assets/og_cover.jpg" name="twitter:image"/>
+<!-- Fonts (optional: lokal hosten für DSGVO) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+      --bg: #0c0c0e;
+      --bg-soft: #121217;
+      --text: #f4f6f8;
+      --muted: #c9ced6;
+      --brand: #6ee7ff;
+      --brand-2: #8b5cf6;
+      --card: #15151b;
+      --border: #1f2330;
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    a { color: var(--brand); text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+    .container { width: min(1200px, 92%); margin: 0 auto; }
+
+    /* Header */
+    header { position: sticky; top: 0; z-index: 40; backdrop-filter: saturate(180%) blur(8px); background: rgba(12,12,14,.6); border-bottom: 1px solid var(--border); }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .2px; }
+    .brand img { width: 28px; height: 28px; }
+    .menu { display: flex; gap: 22px; align-items: center; }
+    .menu a { color: var(--muted); font-weight: 500; }
+    .cta { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #0b0b0d; font-weight: 700; padding: 10px 16px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px; }
+    .burger { display: none; background: none; border: 1px solid var(--border); padding: 8px 10px; border-radius: 10px; color: var(--muted); }
+
+    /* Hero */
+    .hero { padding: 72px 0 40px; background: radial-gradient(1200px 500px at 50% -50px, rgba(110,231,255,.12), transparent), radial-gradient(900px 500px at 80% -150px, rgba(139,92,246,.10), transparent); }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 36px; align-items: center; }
+    h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; margin: 0 0 12px; }
+    .sub { color: var(--muted); font-size: clamp(16px, 2.2vw, 18px); margin-bottom: 24px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 30px; }
+    .pill { border: 1px solid var(--border); padding: 8px 12px; border-radius: 999px; color: var(--muted); font-size: 14px; }
+    .card { background: linear-gradient(180deg, rgba(21,21,27,.8), rgba(21,21,27,.55)); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); }
+    .hero .card { padding: 18px; }
+    .hero-vid { aspect-ratio: 16/9; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+
+    /* Sections */
+    section { padding: 64px 0; }
+    section h2 { font-size: clamp(26px, 3.6vw, 34px); margin: 0 0 12px; }
+    .lead { color: var(--muted); margin: 0 0 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .item { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); }
+    .item h3 { margin: 6px 0 8px; font-size: 18px; }
+    .meta { color: var(--muted); font-size: 14px; }
+
+    /* Pricing */
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+    .price-card { padding: 22px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, rgba(21,21,27,.9), rgba(21,21,27,.6)); display: flex; flex-direction: column; gap: 14px; }
+    .price { font-size: 34px; font-weight: 800; }
+    .badge { font-size: 12px; padding: 6px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; display: inline-block; }
+
+    /* Gallery */
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .gallery a { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .gallery img { display: block; width: 100%; height: 220px; object-fit: cover; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); background: #0a0a0c; }
+    .foot { padding: 28px 0; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+    .foot a { color: var(--muted); margin-right: 16px; }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero-grid, .grid-2 { grid-template-columns: 1fr; }
+      .pricing { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .menu { display: none; }
+      .burger { display: inline-flex; }
+      .gallery img { height: 180px; }
+    }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+  
+    html { scroll-behavior: smooth; }
+    .active a { color: #fff !important; }
+    .error { outline: 2px solid var(--danger); }
+    .hidden { display: none !important; }
+    .accordion { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--card); }
+    .accordion-item + .accordion-item { border-top: 1px solid var(--border); }
+    .accordion-btn { width: 100%; text-align: left; padding: 16px 18px; background: none; border: 0; color: var(--text); font-weight: 600; cursor: pointer; }
+    .accordion-panel { padding: 0 18px 18px; color: var(--muted); }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+<div class="container nav">
+<div class="brand">
+<img alt="AIDevelo Logo" height="28" loading="lazy" src="/assets/logos/aidevelo_logo_mark.png" width="28"/>
+<span>AIDevelo.AI</span>
+</div>
+<nav class="menu">
+<a href="#features">Funktionen</a>
+<a href="#pricing">Preise</a>
+<a href="#cases">Referenzen</a>
+<a class="cta" href="#kontakt">Kostenlos testen</a>
+</nav>
+<button aria-label="Menü öffnen" class="burger" id="burger">Menü</button>
+</div>
+</header>
+<!-- Hero -->
+<section class="hero">
+<div class="container hero-grid">
+<div>
+<h1>Mehr Aufträge. Automatisch. <span style="background:linear-gradient(135deg, var(--brand), var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent;">Mit AI.</span></h1>
+<p class="sub">AIDevelo.AI hilft dir, konstant qualifizierte Leads zu gewinnen, Vertrauen aufzubauen und Abschlüsse zu beschleunigen – ohne mehr manuellen Aufwand.</p>
+<div class="pills">
+<span class="pill">Lead-Magnet &amp; Landingpages</span>
+<span class="pill">AI-Antworten &amp; Chat</span>
+<span class="pill">CRM-Ready</span>
+<span class="pill">14 Tage kostenlos</span>
+</div>
+<a class="cta" href="#kontakt">Jetzt starten →</a>
+<p class="meta" style="margin-top:10px;">Kein Risiko. Monatlich kündbar.</p>
+</div>
+<div class="card">
+<div class="hero-vid">
+<!-- Ersetze die URL mit deinem Video -->
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="100%" loading="lazy" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Produktdemo" width="100%"></iframe>
+</div>
+</div>
+</div>
+</section>
+<!-- Features -->
+<section class="reveal" id="features">
+<div class="container">
+<h2>Alles, was du für planbares Wachstum brauchst</h2>
+<p class="lead">Von der ersten Berührung bis zum Abschluss – sauber abgedeckt.</p>
+<div class="grid-3">
+<div class="item">
+<span class="badge">Akquise</span>
+<h3>Landingpages, die konvertieren</h3>
+<p class="meta">Konversionsstarke Sektionen, A/B-Tests und schnelle Ladezeiten.</p>
+</div>
+<div class="item">
+<span class="badge">Automation</span>
+<h3>AI-Lead-Qualifizierung</h3>
+<p class="meta">Antwortet in Sekunden, priorisiert Chancen und bucht Termine.</p>
+</div>
+<div class="item">
+<span class="badge">Trust</span>
+<h3>Case-Studys &amp; Reviews</h3>
+<p class="meta">Zeig Ergebnisse mit Zahlen, Video-Testimonials und Logos.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing -->
+<section class="reveal" id="pricing">
+<div class="container">
+<h2>Transparente Preise</h2>
+<p class="lead">Starte klein. Skaliere, wenn es sich lohnt.</p>
+<div class="pricing">
+<div class="price-card">
+<span class="badge">Starter</span>
+<div class="price">€29<span class="meta">/Monat</span></div>
+<ul class="meta">
+<li>1 Landingpage</li>
+<li>Formular &amp; E-Mail-Benachrichtigung</li>
+<li>Grundlegende Analytics</li>
+</ul>
+<a class="cta" href="#kontakt">Los geht's</a>
+</div>
+<div class="price-card" style="outline:2px solid rgba(110,231,255,.35)">
+<span class="badge">Beliebt</span>
+<div class="price">€79<span class="meta">/Monat</span></div>
+<ul class="meta">
+<li>3 Landingpages</li>
+<li>AI-Responder &amp; Terminbuchung</li>
+<li>Integrationen (Zapier/Make)</li>
+</ul>
+<a class="cta" href="#kontakt">Kostenlos testen</a>
+</div>
+<div class="price-card">
+<span class="badge">Business</span>
+<div class="price">€199<span class="meta">/Monat</span></div>
+<ul class="meta">
+<li>Unbegrenzt</li>
+<li>Priorisierter Support</li>
+<li>Custom SLAs &amp; CRM</li>
+</ul>
+<a class="cta" href="#kontakt">Demo anfragen</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Cases / Gallery -->
+<section class="reveal" id="cases">
+<div class="container">
+<h2>Ergebnisse, die für sich sprechen</h2>
+<p class="lead">Ein Blick in ausgewählte Kundenprojekte.</p>
+<div class="gallery" id="gallery">
+<a data-full="/assets/gallery/case1.webp" href="/assets/gallery/case1.webp"><img alt="Case 1" height="220" loading="lazy" src="/assets/gallery/case1.webp" width="400"/></a>
+<a data-full="/assets/gallery/case2.webp" href="/assets/gallery/case2.webp"><img alt="Case 2" height="220" loading="lazy" src="/assets/gallery/case2.webp" width="400"/></a>
+<a data-full="/assets/gallery/case3.webp" href="/assets/gallery/case3.webp"><img alt="Case 3" height="220" loading="lazy" src="/assets/gallery/case3.webp" width="400"/></a>
+<a data-full="/assets/gallery/case4.webp" href="/assets/gallery/case4.webp"><img alt="Case 4" height="220" loading="lazy" src="/assets/gallery/case4.webp" width="400"/></a>
+<a data-full="/assets/gallery/case5.webp" href="/assets/gallery/case5.webp"><img alt="Case 5" height="220" loading="lazy" src="/assets/gallery/case5.webp" width="400"/></a>
+<a data-full="/assets/gallery/case6.webp" href="/assets/gallery/case6.webp"><img alt="Case 6" height="220" loading="lazy" src="/assets/gallery/case6.webp" width="400"/></a>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="reveal">
+<div class="container grid-3">
+<div class="item">
+<p>„In 6 Wochen von 0 auf 40 qualifizierte Leads/Monat – ohne Ads hochzudrehen.“</p>
+<p class="meta">— Lara M., Agenturinhaberin</p>
+</div>
+<div class="item">
+<p>„Der AI-Responder beantwortet 80% der Anfragen in &lt; 60 Sekunden. Kunden lieben es.“</p>
+<p class="meta">— Jonas M., SaaS-Gründer</p>
+</div>
+<div class="item">
+<p>„Die Landingpages sind richtig schnell und sehen top aus. Conversion +38%.“</p>
+<p class="meta">— Deniz M., E‑Com</p>
+</div>
+</div>
+</section>
+<!-- Kontakt / Form -->
+<section class="reveal" id="kontakt">
+<div class="container">
+<h2>Kostenlos testen oder Demo sichern</h2>
+<p class="lead">Sag kurz, was du brauchst – wir melden uns.</p>
+<div class="grid-2">
+<form action="https://formspree.io/f/DEINE-ID" class="item" id="contactForm" method="POST">
+<input name="_subject" type="hidden" value="Neue Anfrage über AIDevelo.AI"/>
+<div style="display:none;">
+<!-- Honeypot gegen Bots -->
+<label>Nicht ausfüllen: <input autocomplete="off" name="_gotcha" tabindex="-1"/></label>
+</div>
+<label>Dein Name<br/><input name="name" required="" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0e0e12;color:var(--text)"/></label><br/><br/>
+<label>E-Mail<br/><input name="email" required="" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0e0e12;color:var(--text)" type="email"/></label><br/><br/>
+<label>Wie können wir helfen?<br/><textarea name="message" required="" rows="5" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0e0e12;color:var(--text)"></textarea></label><br/><br/>
+<label><input required="" type="checkbox"/> Ich akzeptiere die <a href="#datenschutz">Datenschutzerklärung</a>.</label><br/><br/>
+<button class="cta" type="submit">Absenden</button>
+<p class="meta">Tipp: Ersetze die Formspree-ID oder nutze deinen eigenen Endpoint.</p>
+<p class="meta" id="formStatus"></p></form>
+<div class="item">
+<h3>Direkter Kontakt</h3>
+<p class="meta">E-Mail: <a href="mailto:hello@aidevelo.ai">hello@aidevelo.ai</a><br/>Telefon: +41 44 000 00 00</p>
+<div class="card" style="padding:14px;">
+<strong>Nächste Schritte</strong>
+<ol class="meta">
+<li>Kurzes Onboarding-Gespräch (15 Min.)</li>
+<li>Wir setzen deine erste Page auf</li>
+<li>Start der 14‑Tage‑Testphase</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Impressum -->
+<section class="reveal" id="impressum">
+<div class="container">
+<h2>Impressum</h2>
+<div class="item">
+<p><strong>AIDevelo GmbH</strong><br/>
+        Musterstrasse 1, 8000 Zürich, Schweiz<br/>
+        Vertretungsberechtigt: Max Muster<br/>
+        UID/USt‑IdNr.: CHE‑000.000.000<br/>
+        Kontakt: <a href="mailto:hello@aidevelo.ai">hello@aidevelo.ai</a></p>
+</div>
+</div>
+</section>
+<!-- Datenschutz -->
+<section class="reveal" id="datenschutz">
+<div class="container">
+<h2>Datenschutzerklärung</h2>
+<div class="item">
+<p>Wir verarbeiten personenbezogene Daten (z. B. Name, E‑Mail) ausschliesslich zur Beantwortung deiner Anfrage. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertrag/Anbahnung). Hosting dieser Website erfolgt bei Vercel. Beim Absenden des Formulars werden die Daten an den in der Form-Action angegebenen Dienst übermittelt (z. B. Formspree). Details findest du in der Datenschutzerklärung des Anbieters.</p>
+<p>Du hast das Recht auf Auskunft, Berichtigung, Löschung und Widerspruch. Kontakt: <a href="mailto:privacy@aidevelo.ai">privacy@aidevelo.ai</a>.</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<section class="reveal" id="faq">
+<div class="container">
+<h2>Häufige Fragen (FAQ)</h2>
+<p class="lead">Kurz &amp; knapp beantwortet.</p>
+<div class="accordion" id="faqList">
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-btn">Wie schnell kann ich live gehen?</button>
+<div class="accordion-panel hidden"><p>Oft noch am selben Tag. Inhalte/Assets bereitstellen, wir verbinden die Domain und fertig.</p></div>
+</div>
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-btn">Kann ich ohne Code starten?</button>
+<div class="accordion-panel hidden"><p>Ja. Inhalte im Formular schicken – wir bauen die erste Page für dich. Später kannst du alles selbst ändern.</p></div>
+</div>
+<div class="accordion-item">
+<button aria-expanded="false" class="accordion-btn">Welche Integrationen gibt es?</button>
+<div class="accordion-panel hidden"><p>Zapier/Make, Webhooks, Kalender, CRM (HubSpot/Pipedrive), E-Mail-Tools und mehr.</p></div>
+</div>
+</div>
+</div>
+</section><footer>
+<div class="container foot">
+<div class="brand" style="gap:10px;">
+<img alt="AIDevelo Logo" height="24" loading="lazy" src="/assets/logos/aidevelo_logo_mark.png" width="24"/>
+<span class="meta">© <span id="year"></span> AIDevelo.AI</span>
+</div>
+<div>
+<a href="#impressum">Impressum</a>
+<a href="#datenschutz">Datenschutz</a>
+</div>
+</div>
+</footer>
+<!-- Structured Data -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AIDevelo.AI",
+    "url": "https://www.aidevelo.ai/",
+    "logo": "https://www.aidevelo.ai/assets/logos/aidevelo_logo_white.png",
+    "sameAs": ["https://www.linkedin.com/company/DEIN-LINK"]
+  }
+  </script>
+<!-- Scripts -->
+<script>
+    // Mobile menu simple toggle (expand/collapse to anchors)
+    const burger = document.getElementById('burger');
+    const header = document.querySelector('header');
+    burger?.addEventListener('click', () => {
+      const nav = document.querySelector('.menu');
+      if (!nav) return;
+      const visible = getComputedStyle(nav).display !== 'none';
+      if (visible) {
+        nav.style.display = 'none';
+      } else {
+        nav.style.display = 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.gap = '12px';
+        nav.style.position = 'absolute';
+        nav.style.top = '56px';
+        nav.style.right = '4%';
+        nav.style.background = 'rgba(12,12,14,.95)';
+        nav.style.border = '1px solid var(--border)';
+        nav.style.borderRadius = '12px';
+        nav.style.padding = '12px';
+      }
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('show');
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Lightbox for gallery
+    const gallery = document.getElementById('gallery');
+    if (gallery) {
+      gallery.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (!a) return;
+        e.preventDefault();
+        const src = a.getAttribute('data-full') || a.getAttribute('href');
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:50';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Vorschau';
+        img.style.maxWidth = '92%';
+        img.style.maxHeight = '86%';
+        img.style.border = '1px solid var(--border)';
+        img.style.borderRadius = '12px';
+        overlay.appendChild(img);
+        overlay.addEventListener('click', () => overlay.remove());
+        document.body.appendChild(overlay);
+      });
+    }
+
+    // Current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  
+    // Scroll spy: highlight current section link
+    const sections = [...document.querySelectorAll('section[id]')];
+    const navLinks = [...document.querySelectorAll('nav.menu a[href^="#"]')];
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const link = navLinks.find(a => a.getAttribute('href') === '#' + id);
+        if (!link) return;
+        const li = link.closest('a');
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.parentElement?.classList?.remove?.('active'));
+          link.parentElement?.classList?.add?.('active');
+          link.style.color = '#fff';
+        }
+      });
+    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => spy.observe(s));
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.menu a').forEach(a => a.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        const nav = document.querySelector('.menu');
+        if (nav) nav.style.display = 'none';
+      }
+    }));
+
+    // FAQ accordion
+    document.querySelectorAll('#faq .accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.nextElementSibling;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        panel.classList.toggle('hidden');
+      });
+    });
+
+    // Form validation + fetch submit
+    const formEl = document.getElementById('contactForm');
+    if (formEl) {
+      formEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        status.textContent = '';
+        const required = formEl.querySelectorAll('[required]');
+        let ok = true;
+        required.forEach(f => { f.classList.remove('error'); if (!f.value.trim()) { f.classList.add('error'); ok = false; } });
+        if (!ok) { status.textContent = 'Bitte fülle alle Pflichtfelder aus.'; return; }
+        const url = formEl.getAttribute('action');
+        const data = new FormData(formEl);
+        try {
+          const resp = await fetch(url, { method: 'POST', body: data, headers: { 'Accept': 'application/json' }});
+          if (resp.ok) {
+            formEl.reset();
+            status.textContent = 'Danke! Wir melden uns in Kürze.';
+          } else {
+            status.textContent = 'Uups – etwas ging schief. Schreib uns direkt an hello@aidevelo.ai.';
+          }
+        } catch (err) {
+          status.textContent = 'Netzwerkfehler. Bitte später erneut versuchen.';
+        }
+      });
+    }
+</script>
+</body>
+</html>

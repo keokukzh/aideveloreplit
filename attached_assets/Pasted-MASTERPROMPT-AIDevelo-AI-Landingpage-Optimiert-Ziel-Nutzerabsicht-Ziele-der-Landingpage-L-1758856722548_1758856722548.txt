@@ -1,0 +1,175 @@
+MASTERPROMPT – AIDevelo.AI Landingpage (Optimiert)
+🎯 Ziel & Nutzerabsicht
+
+Ziele der Landingpage
+
+Leads generieren → klares Formular + Free Trial Funnel
+
+Vertrauen aufbauen → modernes Design, Testimonials, Social Proof
+
+Angebote klar darstellen → transparente Pakete & Features
+
+Abschlüsse fördern → 14-Tage-Test, sichtbare CTAs
+
+Nutzerintention (User Intent)
+
+Schnelle Infoaufnahme (wenig Scroll nötig)
+
+Sofortige Handlungsaufforderung („14 Tage kostenlos testen“)
+
+Preisstrukturen und Paketunterschiede sofort erkennbar
+
+Kontaktaufnahme mit minimalem Aufwand
+
+🧱 Seitenstruktur & Inhalte
+1. Header + Navigation
+
+Sticky Header: Logo links, Navigation rechts
+
+Haupt-CTA: „Jetzt testen“ (Button, immer sichtbar)
+
+Mobile: Burger-Menü
+
+2. Hero Section
+
+Eyecatcher: AI-Grafik / Hero-Image + Logo
+
+Hauptslogan: „Mehr Aufträge. Automatisch. Mit AI.“
+
+Kurze Value Proposition (1–2 Sätze)
+
+CTA: „14 Tage kostenlos testen“
+
+3. USP / Vorteile (Was macht AIDevelo.AI?)
+
+3 Spalten mit Icons & Texten
+
+Fokus auf Ergebnisse, nicht Technik
+
+Mehr Anfragen
+
+Social Media automatisch
+
+Messbare Resultate
+
+4. Pakete & Preise
+
+Vergleichstabelle: Basic / Pro / Ultimate
+
+Transparente Preisangaben (monatlich / jährlich)
+
+Feature-Check (✓ / ✗)
+
+CTA-Button pro Paket
+
+5. Free Trial Banner
+
+Farbig hervorgehobene Sektion
+
+Reminder: „Teste uns wie ein echter Kunde“
+
+CTA: „Jetzt kostenlos starten“
+
+6. Kundenfeedback
+
+Testimonial-Karten (Foto, Name, Sterne, kurzer Text)
+
+Optional: Video-Referenz
+
+7. Video / Erklärsektion (optional)
+
+60-Sekunden-Erklärvideo für schnelle Info
+
+8. Kontaktformular
+
+Felder: Name, Firma, Branche, Telefon, E-Mail
+
+DSGVO-Hinweis im Footer
+
+Alternative: Typeform-Einbettung
+
+9. Footer
+
+Logo klein
+
+Impressum, Datenschutz, Kontakt-E-Mail
+
+Social Media Links
+
+🎨 Designrichtlinien
+
+Fonts: Poppins oder Inter (Google Fonts)
+Farben:
+
+Hintergrund: #0f0f0f (dunkelgrau)
+
+Text: #ffffff / #cccccc
+
+Akzente: #00cfff (Neon-Blau), #a100ff (AI-Lila)
+
+Layout & Animation
+
+Mobile-First, max. 1200px Content
+
+Grid / Flexbox für Sektionen
+
+Animationen: Fade-In (AOS.js), Hover-Buttons, Smooth Scroll
+
+📁 Dateistruktur
+📁 aidevelo-landingpage/
+├── index.html        # Hauptseite
+├── style.css         # Styles
+├── script.js         # Effekte & Animationen
+├── /assets/          
+│   ├── logo_dark.png
+│   ├── logo_light.png
+│   ├── icons/        # SVG/PNG
+│   └── ai_bg_hero.jpg
+
+⚙️ Technik & Optimierung
+
+Mobile-First + Responsive Breakpoints: 320px / 768px / 1024px / 1440px
+
+SEO: Title, Meta, OpenGraph
+
+Performance: WebP-Bilder, Lazy Loading
+
+Deployment-ready: Vercel / Netlify / GitHub Pages
+
+🧪 Testing
+
+Lokal: VS Code + Live Server
+
+Browser: Chrome, Safari, Firefox, Edge
+
+Responsive: Chrome DevTools + BrowserStack
+
+Conversion-Tests: Google Optimize / A/B-Tests (später)
+
+✅ Erweiterungen (Bonusideen)
+
+Online-Bezahlung (Stripe / PayPal)
+
+Login-Dashboard für Kunden
+
+Blog/News für SEO
+
+AI-Chatbot (FAQ-Assistent)
+
+Video-Testimonials
+
+Dark/Light Mode Toggle
+
+🚀 Ergebnis
+
+Du erhältst:
+✔️ Professionelle, responsive Landingpage
+✔️ Klares Branding & modernes Design
+✔️ Conversion-Funnel: Free Trial → Upsell
+✔️ Sofort einsatzbereit (Deployment-ready Code)
+
+👉 Nächster Schritt:
+
+„Jetzt generieren“ → HTML/CSS-Code wird erstellt
+
+„Nur erste 3 Sektionen“ → Teilgerüst
