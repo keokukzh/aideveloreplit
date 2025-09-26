@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Calculator, TrendingUp, Users, CheckCircle, MessageCircle, Settings, BarChart3, Shield, Plus, Zap, Target, TrendingUp as TrendingUpIcon } from "lucide-react";
+import { HolographicCard, HolographicButton, HolographicBadge } from "./HolographicUI";
+import InteractiveParticles from "./InteractiveParticles";
 
 const modules = [
   {
@@ -125,7 +127,7 @@ export default function IntelligentPricing() {
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Configuration Panel */}
-          <Card className="hover-elevate" data-testid="card-pricing-config">
+          <HolographicCard className="" data-testid="card-pricing-config">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
@@ -222,10 +224,10 @@ export default function IntelligentPricing() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </HolographicCard>
 
           {/* Results Panel */}
-          <Card className="glass-intense card-3d shadow-purple-glow scroll-reveal stagger-3" data-testid="card-pricing-results">
+          <HolographicCard className="scroll-reveal stagger-3" data-testid="card-pricing-results">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
@@ -323,7 +325,7 @@ export default function IntelligentPricing() {
                 </p>
               </div>
             </CardContent>
-          </Card>
+          </HolographicCard>
         </div>
 
         {/* Value Propositions */}
