@@ -8,14 +8,14 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 glass-intense border-b border-white/10">
       <div className="container mx-auto max-w-6xl">
         <nav className="flex h-20 items-center justify-between px-4">
           <div className="flex items-center">
             <img 
               src={mainLogoImage} 
               alt="AIDevelo.AI Logo" 
-              className="h-12 w-auto"
+              className="h-12 w-auto magnetic hover:scale-110 transition-transform duration-300"
               data-testid="img-logo"
             />
           </div>
@@ -24,26 +24,29 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-8">
             <a 
               href="#features" 
-              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+              className="text-muted-foreground hover:text-primary transition-all duration-300 font-medium relative group"
               data-testid="link-features"
             >
               Funktionen
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </a>
             <a 
               href="#pricing" 
-              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+              className="text-muted-foreground hover:text-primary transition-all duration-300 font-medium relative group"
               data-testid="link-pricing"
             >
               Preise
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </a>
             <a 
               href="#cases" 
-              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+              className="text-muted-foreground hover:text-primary transition-all duration-300 font-medium relative group"
               data-testid="link-cases"
             >
               Referenzen
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <Button size="lg" data-testid="button-cta-header">
+            <Button size="lg" className="magnetic shadow-glow glow-border" data-testid="button-cta-header">
               Kostenlos testen
             </Button>
           </div>
@@ -62,11 +65,11 @@ export default function Header() {
         
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t bg-card p-4" data-testid="menu-mobile">
+          <div className="md:hidden border-t border-white/10 glass p-4 animate-slideDown" data-testid="menu-mobile">
             <div className="flex flex-col gap-4">
               <a 
                 href="#features" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-all duration-300 py-2 px-3 rounded-lg hover-elevate"
                 onClick={() => setIsMenuOpen(false)}
                 data-testid="link-features-mobile"
               >
@@ -74,7 +77,7 @@ export default function Header() {
               </a>
               <a 
                 href="#pricing" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-all duration-300 py-2 px-3 rounded-lg hover-elevate"
                 onClick={() => setIsMenuOpen(false)}
                 data-testid="link-pricing-mobile"
               >
@@ -82,14 +85,14 @@ export default function Header() {
               </a>
               <a 
                 href="#cases" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-all duration-300 py-2 px-3 rounded-lg hover-elevate"
                 onClick={() => setIsMenuOpen(false)}
                 data-testid="link-cases-mobile"
               >
                 Referenzen
               </a>
               <Button 
-                className="w-full" 
+                className="w-full magnetic shadow-glow" 
                 onClick={() => setIsMenuOpen(false)}
                 data-testid="button-cta-mobile"
               >

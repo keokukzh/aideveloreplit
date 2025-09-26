@@ -102,16 +102,23 @@ export default function IntelligentPricing() {
   const roi = calculateROI();
 
   return (
-    <section className="py-20 px-4" id="intelligent-pricing">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center space-y-4 mb-16">
+    <section className="py-20 px-4 relative overflow-hidden" id="intelligent-pricing">
+      {/* Animated background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 mesh-gradient" />
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl float" />
+        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-chart-2/10 rounded-full blur-3xl float" style={{ animationDelay: '3s' }} />
+      </div>
+      
+      <div className="container mx-auto max-w-6xl relative z-10">
+        <div className="text-center space-y-4 mb-16 scroll-reveal">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Calculator className="h-8 w-8 text-primary" />
-            <h2 className="text-3xl lg:text-5xl font-bold" data-testid="heading-intelligent-pricing">
+            <Calculator className="h-8 w-8 text-primary pulse-glow" />
+            <h2 className="text-3xl lg:text-5xl font-bold gradient-text" data-testid="heading-intelligent-pricing">
               Intelligenter Preisrechner
             </h2>
           </div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto" data-testid="text-pricing-description">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto scroll-reveal stagger-1" data-testid="text-pricing-description">
             Finde die perfekte KI-Lösung für dein Unternehmen. Preis und ROI werden automatisch berechnet.
           </p>
         </div>
@@ -218,7 +225,7 @@ export default function IntelligentPricing() {
           </Card>
 
           {/* Results Panel */}
-          <Card className="hover-elevate" data-testid="card-pricing-results">
+          <Card className="glass-intense card-3d shadow-purple-glow scroll-reveal stagger-3" data-testid="card-pricing-results">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
