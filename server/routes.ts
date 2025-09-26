@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema, insertContactSchema } from "@shared/schema";
+import { insertLeadSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -38,61 +38,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           message: "Internal server error"
         });
       }
-    }
-  });
-
-  // Contact form submission endpoint (enhanced version)
-  app.post("/api/contact", async (req, res) => {
-    try {
-      // Validate request body
-      const contactData = insertContactSchema.parse(req.body);
-      
-      // Create contact in storage
-      const contact = await storage.createContact(contactData);
-      
-      res.status(201).json({
-        success: true,
-        message: "Kontaktanfrage erfolgreich gesendet",
-        data: {
-          id: contact.id,
-          firstName: contact.firstName,
-          lastName: contact.lastName,
-          company: contact.company,
-          email: contact.email,
-          leadScore: contact.leadScore
-        }
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({
-          success: false,
-          message: "Validierungsfehler",
-          errors: error.errors
-        });
-      } else {
-        console.error("Error creating contact:", error);
-        res.status(500).json({
-          success: false,
-          message: "Interner Serverfehler"
-        });
-      }
-    }
-  });
-
-  // Get all contacts endpoint (for potential admin dashboard)
-  app.get("/api/contacts", async (req, res) => {
-    try {
-      const contacts = await storage.getContacts();
-      res.json({
-        success: true,
-        data: contacts
-      });
-    } catch (error) {
-      console.error("Error fetching contacts:", error);
-      res.status(500).json({
-        success: false,
-        message: "Internal server error"
-      });
     }
   });
 

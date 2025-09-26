@@ -1,8 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MessageCircle, Settings, BarChart3, Shield, Plus } from "lucide-react";
-import { HolographicCard, HolographicBadge } from "./HolographicUI";
-import InteractiveParticles from "./InteractiveParticles";
 
 const productPortfolio = [
   {
@@ -69,11 +67,6 @@ export default function Features() {
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-chart-2/5 rounded-full blur-3xl" />
       
-      {/* Interactive Particle System */}
-      <div className="absolute inset-0 z-5 opacity-50">
-        <InteractiveParticles />
-      </div>
-      
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="text-center space-y-4 mb-16 scroll-reveal">
           <h2 className="text-3xl lg:text-5xl font-bold gradient-text" data-testid="heading-features">
@@ -88,15 +81,15 @@ export default function Features() {
           {productPortfolio.map((product, index) => {
             const Icon = product.icon;
             return (
-              <HolographicCard key={index} className="group scroll-reveal" data-testid={`card-product-${index + 1}`}>
+              <Card key={index} className="glass card-3d shadow-glow glow-border group scroll-reveal" style={{ animationDelay: `${index * 0.1}s` }} data-testid={`card-product-${index + 1}`}>
                 <CardHeader>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-3 rounded-lg bg-primary/20 shadow-glow group-hover:shadow-purple-glow transition-all duration-300">
                       <Icon className="h-6 w-6 text-primary group-hover:text-chart-2 transition-colors duration-300" />
                     </div>
-                    <HolographicBadge data-testid={`badge-${product.badge.toLowerCase()}`}>
+                    <Badge variant="secondary" className="glass" data-testid={`badge-${product.badge.toLowerCase()}`}>
                       {product.badge}
-                    </HolographicBadge>
+                    </Badge>
                   </div>
                   <CardTitle className="text-xl mb-2" data-testid={`title-product-${index + 1}`}>
                     {product.title}
@@ -115,7 +108,7 @@ export default function Features() {
                     ))}
                   </ul>
                 </CardContent>
-              </HolographicCard>
+              </Card>
             );
           })}
         </div>
