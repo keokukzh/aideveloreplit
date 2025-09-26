@@ -57,7 +57,7 @@ export default function Footer() {
             </ul>
           </div>
           
-          <div>
+          <div className="text-right">
             <h3 className="font-semibold mb-4" data-testid="title-legal">Rechtliches</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Datenschutz</a></li>
