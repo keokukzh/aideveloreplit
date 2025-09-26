@@ -1,26 +1,62 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Target, Bot, TrendingUp } from "lucide-react";
+import { MessageCircle, Settings, BarChart3, Shield, Plus } from "lucide-react";
 
-const features = [
+const productPortfolio = [
   {
-    icon: Target,
-    badge: "Akquise",
-    title: "Landingpages, die konvertieren",
-    description: "Konversionsstarke Sektionen, A/B-Tests und schnelle Ladezeiten.",
+    icon: MessageCircle,
+    badge: "Support",
+    title: "Multichannel-Kundensupport",
+    description: "KI-Chat- & Voice-Agenten, branchenspezifisch anpassbar.",
+    features: [
+      "KI-Chat- & Voice-Agenten",
+      "Branchenspezifisch anpassbar", 
+      "Lernt aus Interaktionen und optimiert Antworten automatisch"
+    ]
   },
   {
-    icon: Bot,
+    icon: Settings,
     badge: "Automation",
-    title: "AI-Lead-Qualifizierung",
-    description: "Antwortet in Sekunden, priorisiert Chancen und bucht Termine.",
+    title: "Prozessautomatisierung",
+    description: "Rechnungsverarbeitung, Terminplanung & Workflow-Automation.",
+    features: [
+      "Rechnungsverarbeitung (Erfassung, Prüfung, Buchung)",
+      "Terminplanung & Workflow-Automation",
+      "Dokumentenverwaltung (Kategorisierung, Archivierung, Suche)"
+    ]
   },
   {
-    icon: TrendingUp,
-    badge: "Trust",
-    title: "Case-Studys & Reviews",
-    description: "Zeig Ergebnisse mit Zahlen, Video-Testimonials und Logos.",
+    icon: BarChart3,
+    badge: "Analytics",
+    title: "Content & Datenanalyse",
+    description: "Marketing-Content-Erstellung und datengetriebene Entscheidungen.",
+    features: [
+      "Automatisierte Marketing-Content-Erstellung",
+      "Datenanalyse mit automatisch generierten Berichten",
+      "Unterstützung für datengetriebene Entscheidungen"
+    ]
   },
+  {
+    icon: Shield,
+    badge: "Security",
+    title: "IT-Sicherheitspaket",
+    description: "Bedrohungserkennung, Patch-Management und Sicherheits-Dashboard.",
+    features: [
+      "Automatische Bedrohungserkennung & Alarme",
+      "Patch- & Update-Management",
+      "Sicherheits-Dashboard mit klaren Handlungsempfehlungen"
+    ]
+  },
+  {
+    icon: Plus,
+    badge: "Extras",
+    title: "Zusatzmodule",
+    description: "Kundenfeedback-Analyse und intelligente Vertriebsunterstützung.",
+    features: [
+      "Kundenfeedback-Analyse (Auswertung von Bewertungen & Trends)",
+      "Vertriebsunterstützung (Lead-Priorisierung, personalisierte E-Mails)"
+    ]
+  }
 ];
 
 export default function Features() {
@@ -29,35 +65,43 @@ export default function Features() {
       <div className="container mx-auto max-w-6xl">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-3xl lg:text-5xl font-bold" data-testid="heading-features">
-            Alles, was du für planbares Wachstum brauchst
+            Dein KI-Produktportfolio
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto" data-testid="text-features-description">
-            Von der ersten Berührung bis zum Abschluss – sauber abgedeckt.
+            Umfassende KI-Lösungen für jeden Bereich deines Unternehmens.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
+        <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
+          {productPortfolio.map((product, index) => {
+            const Icon = product.icon;
             return (
-              <Card key={index} className="hover-elevate" data-testid={`card-feature-${index + 1}`}>
+              <Card key={index} className="hover-elevate" data-testid={`card-product-${index + 1}`}>
                 <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 rounded-lg bg-primary/10">
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <Badge variant="secondary" data-testid={`badge-${feature.badge.toLowerCase()}`}>
-                      {feature.badge}
+                    <Badge variant="secondary" data-testid={`badge-${product.badge.toLowerCase()}`}>
+                      {product.badge}
                     </Badge>
                   </div>
-                  <CardTitle className="text-xl" data-testid={`title-feature-${index + 1}`}>
-                    {feature.title}
+                  <CardTitle className="text-xl mb-2" data-testid={`title-product-${index + 1}`}>
+                    {product.title}
                   </CardTitle>
+                  <p className="text-muted-foreground" data-testid={`desc-product-${index + 1}`}>
+                    {product.description}
+                  </p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground" data-testid={`desc-feature-${index + 1}`}>
-                    {feature.description}
-                  </p>
+                  <ul className="space-y-2">
+                    {product.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="text-sm text-muted-foreground flex items-start gap-2" data-testid={`feature-${index + 1}-${featureIndex + 1}`}>
+                        <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
               </Card>
             );

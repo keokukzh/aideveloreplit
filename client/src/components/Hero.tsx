@@ -21,14 +21,14 @@ export default function Hero() {
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-lg" data-testid="text-hero-description">
-                AIDevelo.AI hilft dir, konstant qualifizierte Leads zu gewinnen, Vertrauen aufzubauen und Abschlüsse zu beschleunigen – ohne mehr manuellen Aufwand.
+                Umfassende KI-Lösungen für Kundensupport, Prozessautomatisierung, Content-Erstellung, IT-Sicherheit und Vertriebsoptimierung – maßgeschneidert für dein Unternehmen.
               </p>
             </div>
             
             <div className="flex flex-wrap gap-3">
-              <Badge variant="outline" data-testid="badge-feature-1">Lead-Magnet & Landingpages</Badge>
-              <Badge variant="outline" data-testid="badge-feature-2">AI-Antworten & Chat</Badge>
-              <Badge variant="outline" data-testid="badge-feature-3">CRM-Ready</Badge>
+              <Badge variant="outline" data-testid="badge-feature-1">KI-Chat & Voice-Agenten</Badge>
+              <Badge variant="outline" data-testid="badge-feature-2">Prozessautomatisierung</Badge>
+              <Badge variant="outline" data-testid="badge-feature-3">IT-Sicherheitspaket</Badge>
               <Badge variant="outline" data-testid="badge-feature-4">14 Tage kostenlos</Badge>
             </div>
             
