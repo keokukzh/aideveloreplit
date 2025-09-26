@@ -36,13 +36,14 @@ export default function Footer() {
         
         {/* Central logo section - much larger and prominent */}
         <div className="flex flex-col items-center gap-8 py-8">
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center">
             <img 
               src={signatureLogoImage} 
               alt="AIDevelo.AI Signature" 
               className="h-24 lg:h-32 w-auto invert dark:invert-0 transition-all duration-300 hover:scale-105"
               data-testid="img-footer-signature"
             />
+            <div className="w-24 lg:w-32 h-0.5 bg-primary mt-4"></div>
           </div>
           
           {/* Tagline prominently displayed under logo */}
