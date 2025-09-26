@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import Pricing from "@/components/Pricing";
+import IntelligentPricing from "@/components/IntelligentPricing";
 import CaseStudies from "@/components/CaseStudies";
 import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
@@ -21,6 +22,7 @@ export default function LandingPage() {
         <Hero />
         <Features />
         <Pricing />
+        <IntelligentPricing />
         <CaseStudies />
         <Testimonials />
         <ContactForm />
