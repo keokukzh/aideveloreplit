@@ -1,4 +1,4 @@
-import logoImage from "@assets/generated_images/AIDevelo.AI_logo_mark_7a6cd9d9.png";
+import signatureLogoImage from "@assets/IMG_0950_1758859780928.png";
 
 export default function Footer() {
   return (
@@ -6,16 +6,15 @@ export default function Footer() {
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
               <img 
-                src={logoImage} 
-                alt="AIDevelo Logo" 
-                className="h-6 w-6"
+                src={signatureLogoImage} 
+                alt="AIDevelo.AI Signature" 
+                className="h-8 w-auto invert"
                 data-testid="img-footer-logo"
               />
-              <span className="font-bold" data-testid="text-footer-brand">AIDevelo.AI</span>
             </div>
-            <p className="text-sm text-muted-foreground" data-testid="text-footer-description">
+            <p className="text-sm text-muted-foreground font-medium" data-testid="text-footer-description">
               Mehr Aufträge. Automatisch. Mit AI.
             </p>
           </div>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import logoImage from "@assets/generated_images/AIDevelo.AI_logo_mark_7a6cd9d9.png";
+import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
+import signatureLogoImage from "@assets/IMG_0950_1758859780928.png";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,41 +10,40 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto max-w-6xl">
-        <nav className="flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-3">
+        <nav className="flex h-20 items-center justify-between px-4">
+          <div className="flex items-center">
             <img 
-              src={logoImage} 
-              alt="AIDevelo Logo" 
-              className="h-8 w-8"
+              src={mainLogoImage} 
+              alt="AIDevelo.AI Logo" 
+              className="h-12 w-auto"
               data-testid="img-logo"
             />
-            <span className="text-xl font-bold" data-testid="text-brand">AIDevelo.AI</span>
           </div>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <a 
               href="#features" 
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               data-testid="link-features"
             >
               Funktionen
             </a>
             <a 
               href="#pricing" 
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               data-testid="link-pricing"
             >
               Preise
             </a>
             <a 
               href="#cases" 
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               data-testid="link-cases"
             >
               Referenzen
             </a>
-            <Button data-testid="button-cta-header">
+            <Button size="lg" data-testid="button-cta-header">
               Kostenlos testen
             </Button>
           </div>
