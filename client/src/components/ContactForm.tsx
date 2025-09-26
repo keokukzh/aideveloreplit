@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 const industries = [
   "Beratung",
@@ -30,30 +32,49 @@ export default function ContactForm() {
     message: "",
   });
 
+  const createLeadMutation = useMutation({
+    mutationFn: async (leadData: typeof formData) => {
+      const response = await apiRequest('POST', '/api/leads', leadData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Nachricht gesendet!",
+        description: "Wir melden uns innerhalb von 24 Stunden bei dir.",
+      });
+      setFormData({
+        name: "",
+        company: "",
+        industry: "",
+        phone: "",
+        email: "",
+        message: "",
+      });
+    },
+    onError: (error: any) => {
+      console.error('Lead submission error:', error);
+      toast({
+        title: "Fehler beim Senden",
+        description: error.message || "Bitte versuche es später erneut.",
+        variant: "destructive"
+      });
+    }
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // todo: remove mock functionality
-    console.log('Form submitted:', formData);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Nachricht gesendet!",
-      description: "Wir melden uns innerhalb von 24 Stunden bei dir.",
-    });
-    
-    setIsSubmitting(false);
-    setFormData({
-      name: "",
-      company: "",
-      industry: "",
-      phone: "",
-      email: "",
-      message: "",
-    });
+    // Validate required fields
+    if (!formData.name || !formData.company || !formData.industry || !formData.email) {
+      toast({
+        title: "Fehlende Angaben",
+        description: "Bitte fülle alle Pflichtfelder aus.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    createLeadMutation.mutate(formData);
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -156,10 +177,10 @@ export default function ContactForm() {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={isSubmitting}
+                disabled={createLeadMutation.isPending}
                 data-testid="button-submit"
               >
-                {isSubmitting ? "Wird gesendet..." : "Nachricht senden"}
+                {createLeadMutation.isPending ? "Wird gesendet..." : "Nachricht senden"}
               </Button>
             </form>
           </CardContent>
