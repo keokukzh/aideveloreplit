@@ -1,4 +1,4 @@
-import signatureLogoImage from "@assets/IMG_0950_1758859780928.png";
+import signatureLogoImage from "@assets/IMG_0831 (3)_1758861135123.png";
 
 export default function Footer() {
   return (
@@ -48,17 +48,30 @@ export default function Footer() {
         </div>
         
         <div className="border-t mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground" data-testid="text-copyright">
-              © 2025 AIDevelo.AI. Alle Rechte vorbehalten.
-            </p>
-            <div className="flex gap-6">
-              <a href="mailto:hello@aidevelo.ai" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-email">
-                hello@aidevelo.ai
-              </a>
-              <p className="text-sm text-muted-foreground" data-testid="text-gdpr">
-                DSGVO-konform
+          <div className="flex flex-col items-center gap-6">
+            {/* Logo in center */}
+            <div className="flex justify-center">
+              <img 
+                src={signatureLogoImage} 
+                alt="AIDevelo.AI Signature" 
+                className="h-12 w-auto invert"
+                data-testid="img-footer-signature"
+              />
+            </div>
+            
+            {/* Copyright and contact info below logo */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-full">
+              <p className="text-sm text-muted-foreground" data-testid="text-copyright">
+                © 2025 AIDevelo.AI. Alle Rechte vorbehalten.
               </p>
+              <div className="flex gap-6">
+                <a href="mailto:hello@aidevelo.ai" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-email">
+                  hello@aidevelo.ai
+                </a>
+                <p className="text-sm text-muted-foreground" data-testid="text-gdpr">
+                  DSGVO-konform
+                </p>
+              </div>
             </div>
           </div>
         </div>
