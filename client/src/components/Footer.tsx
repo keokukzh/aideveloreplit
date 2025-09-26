@@ -54,7 +54,7 @@ export default function Footer() {
               <img 
                 src={signatureLogoImage} 
                 alt="AIDevelo.AI Signature" 
-                className="h-12 w-auto invert"
+                className="h-12 w-auto invert dark:invert-0"
                 data-testid="img-footer-signature"
               />
             </div>
