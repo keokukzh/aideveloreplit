@@ -7,8 +7,9 @@ import { type PricingCalculation, type Module } from './types';
  * @returns PricingCalculation with subtotal, discount, and total
  */
 export function calculatePricing(selectedModuleIds: string[]): PricingCalculation {
-  // Get selected modules
-  const selectedModules: Module[] = selectedModuleIds
+  // Deduplicate IDs first, then get selected modules
+  const uniqueIds = [...new Set(selectedModuleIds)];
+  const selectedModules: Module[] = uniqueIds
     .map(id => getModuleById(id))
     .filter((module): module is Module => module !== undefined);
   
