@@ -21,9 +21,7 @@ export function startCheckout(selectedIds: string[], total: number): void {
   };
   
   console.log('🚀 Starting checkout with data:', checkoutData);
-  console.log('TODO: Integrate with Stripe for payment processing');
   
-  // TODO: Redirect to Stripe checkout or open payment modal
-  // Example implementation:
-  // window.location.href = `/checkout?modules=${selectedIds.join(',')}&total=${total}`;
+  // Redirect to Stripe checkout page with selected modules and total
+  window.location.href = `/checkout?modules=${selectedIds.join(',')}&total=${total}`;
 }
