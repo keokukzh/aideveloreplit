@@ -10,7 +10,7 @@ export default function Footer() {
             <img 
               src={signatureLogoImage} 
               alt="AIDevelo.AI Signature" 
-              className="h-24 lg:h-32 w-auto invert dark:invert-0 transition-all duration-300 hover:scale-105"
+              className="h-24 lg:h-32 w-auto invert dark:invert-0 transition-opacity duration-300 hover:opacity-90"
               data-testid="img-footer-signature"
             />
             <div className="w-24 lg:w-32 h-0.5 bg-primary mt-4"></div>
@@ -18,7 +18,7 @@ export default function Footer() {
           
           {/* Tagline prominently displayed under logo */}
           <p className="text-lg font-medium text-center text-muted-foreground max-w-md" data-testid="text-footer-description">
-            Mehr Aufträge. Automatisch. Mit AI.
+            Modular AI solutions for growing businesses.
           </p>
           
           {/* Contact information prominently displayed */}
@@ -32,7 +32,7 @@ export default function Footer() {
             </a>
             <div className="hidden md:block w-1 h-1 rounded-full bg-muted-foreground"></div>
             <p className="text-base text-muted-foreground" data-testid="text-gdpr">
-              DSGVO-konform
+              GDPR Compliant
             </p>
           </div>
         </div>
@@ -40,29 +40,29 @@ export default function Footer() {
         {/* Navigation links in one line under logo */}
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           <div>
-            <h3 className="font-semibold mb-4" data-testid="title-product">Produkt</h3>
+            <h3 className="font-semibold mb-4" data-testid="title-product">Products</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-features-footer">Funktionen</a></li>
-              <li><a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-pricing-footer">Preise</a></li>
-              <li><a href="#cases" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-cases-footer">Referenzen</a></li>
+              <li><a href="#products" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-products-footer">AI Agents</a></li>
+              <li><a href="#pricing-summary" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-pricing-footer">Pricing</a></li>
+              <li><a href="#references" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-references-footer">References</a></li>
             </ul>
           </div>
           
           <div className="text-center">
-            <h3 className="font-semibold mb-4" data-testid="title-company">Unternehmen</h3>
+            <h3 className="font-semibold mb-4" data-testid="title-company">Company</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">Über uns</a></li>
-              <li><a href="#kontakt" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-contact">Kontakt</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">About</a></li>
+              <li><a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-contact">Contact</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-blog">Blog</a></li>
             </ul>
           </div>
           
           <div className="text-right">
-            <h3 className="font-semibold mb-4" data-testid="title-legal">Rechtliches</h3>
+            <h3 className="font-semibold mb-4" data-testid="title-legal">Legal</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Datenschutz</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-imprint">Impressum</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">AGB</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Privacy Policy</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-imprint">Imprint</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">Terms</a></li>
             </ul>
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function Footer() {
         {/* Bottom section with copyright */}
         <div className="border-t pt-8">
           <p className="text-sm text-center text-muted-foreground" data-testid="text-copyright">
-            © 2025 AIDevelo.AI. Alle Rechte vorbehalten.
+            © 2024 AIDevelo.AI. All rights reserved.
           </p>
         </div>
       </div>

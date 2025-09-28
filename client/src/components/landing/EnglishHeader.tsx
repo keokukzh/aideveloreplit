@@ -35,7 +35,7 @@ export default function EnglishHeader() {
             <img 
               src={mainLogoImage} 
               alt="AIDevelo.AI Logo" 
-              className="h-12 w-auto magnetic hover:scale-110 transition-transform duration-300"
+              className="h-12 w-auto transition-opacity duration-300 hover:opacity-90"
               data-testid="img-logo"
             />
           </div>
@@ -50,7 +50,7 @@ export default function EnglishHeader() {
               References
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <Button size="lg" className="magnetic shadow-glow glow-border" data-testid="button-cta-header">
+            <Button size="lg" className="" data-testid="button-cta-header">
               Start Free Trial
             </Button>
           </div>
@@ -69,7 +69,7 @@ export default function EnglishHeader() {
         
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-white/10 glass p-4 animate-slideDown" data-testid="menu-mobile">
+          <div className="lg:hidden border-t border-white/10 glass p-4" data-testid="menu-mobile">
             <div className="flex flex-col gap-4">
               <a 
                 href="#products" 
@@ -96,7 +96,7 @@ export default function EnglishHeader() {
                 References
               </a>
               <Button 
-                className="w-full magnetic shadow-glow" 
+                className="w-full" 
                 onClick={() => setIsMenuOpen(false)}
                 data-testid="button-cta-mobile"
               >

@@ -5,6 +5,7 @@ interface HolographicUIProps {
   intensity?: number;
   className?: string;
   'data-testid'?: string;
+  enabled?: boolean;
 }
 
 interface MousePosition {
@@ -14,9 +15,10 @@ interface MousePosition {
 
 export default function HolographicUI({ 
   children, 
-  intensity = 1, 
+  intensity = 0.2, 
   className = '', 
-  'data-testid': testId 
+  'data-testid': testId,
+  enabled = false
 }: HolographicUIProps) {
   const [mouse, setMouse] = useState<MousePosition>({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -54,9 +56,10 @@ export default function HolographicUI({
     };
   }, []);
 
-  const rotateX = mouse.y * 10 * intensity;
-  const rotateY = -mouse.x * 10 * intensity;
-  const translateZ = isHovered ? 20 * intensity : 0;
+  const effectiveIntensity = enabled ? intensity : 0;
+  const rotateX = mouse.y * 10 * effectiveIntensity;
+  const rotateY = -mouse.x * 10 * effectiveIntensity;
+  const translateZ = isHovered && enabled ? 20 * effectiveIntensity : 0;
 
   return (
     <div
@@ -72,7 +75,7 @@ export default function HolographicUI({
       <div
         className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300"
         style={{
-          opacity: isHovered ? 0.6 : 0,
+          opacity: isHovered && enabled ? 0.6 : 0,
           background: `
             radial-gradient(
               circle at ${50 + mouse.x * 20}% ${50 + mouse.y * 20}%, 
@@ -91,7 +94,7 @@ export default function HolographicUI({
       <div
         className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300"
         style={{
-          opacity: isHovered ? 0.4 : 0,
+          opacity: isHovered && enabled ? 0.4 : 0,
           background: `
             linear-gradient(
               ${45 + mouse.x * 30}deg,
@@ -110,14 +113,14 @@ export default function HolographicUI({
       <div
         className="relative z-10 transition-transform duration-300"
         style={{
-          transform: `translateZ(${isHovered ? 10 * intensity : 0}px)`,
+          transform: `translateZ(${isHovered && enabled ? 10 * effectiveIntensity : 0}px)`,
         }}
       >
         {children}
       </div>
 
       {/* Floating elements */}
-      {isHovered && (
+      {isHovered && enabled && (
         <>
           {/* Top left floating orb */}
           <div
@@ -176,7 +179,7 @@ export default function HolographicUI({
       <div
         className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300"
         style={{
-          opacity: isHovered ? 0.3 : 0,
+          opacity: isHovered && enabled ? 0.3 : 0,
           background: 'transparent',
           border: '1px solid transparent',
           borderImage: `linear-gradient(
@@ -198,7 +201,8 @@ export function HolographicCard({ children, className = '', ...props }: Holograp
   return (
     <HolographicUI
       className={`glass-intense border border-primary/20 rounded-lg p-6 ${className}`}
-      intensity={0.8}
+      intensity={0.2}
+      enabled={false}
       {...props}
     >
       {children}
@@ -210,12 +214,13 @@ export function HolographicButton({ children, className = '', onClick, ...props 
   return (
     <HolographicUI
       className={`inline-block ${className}`}
-      intensity={1.2}
+      intensity={0.1}
+      enabled={false}
       {...props}
     >
       <button
         onClick={onClick}
-        className="relative px-6 py-3 bg-gradient-to-r from-primary to-chart-2 text-primary-foreground rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:scale-95"
+        className="relative px-6 py-3 bg-gradient-to-r from-primary to-chart-2 text-primary-foreground rounded-lg font-medium transition-colors duration-300 hover:opacity-90"
       >
         {children}
       </button>
@@ -227,7 +232,8 @@ export function HolographicBadge({ children, className = '', ...props }: Hologra
   return (
     <HolographicUI
       className={`inline-block ${className}`}
-      intensity={0.6}
+      intensity={0.1}
+      enabled={false}
       {...props}
     >
       <div className="px-3 py-1 bg-primary/10 border border-primary/30 rounded-full text-sm font-medium text-primary backdrop-blur-sm">
