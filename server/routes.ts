@@ -501,18 +501,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create demo data endpoint for testing
+  // Create demo data endpoint for testing - Pro Account with All Products
   app.post("/api/demo-data", async (req, res) => {
     try {
-      const mockUserId = "demo-user-123";
+      const mockUserId = "pro-user-123";
       
-      // Create demo subscriptions
+      // Create PRO subscriptions for ALL products
       await storage.createSubscription({
         userId: mockUserId,
         moduleId: "chat",
         price: 4900, // €49.00
         status: "active",
-        stripeSubscriptionId: null,
+        stripeSubscriptionId: "sub_chat_demo_123",
         startDate: new Date()
       });
       
@@ -521,36 +521,121 @@ export async function registerRoutes(app: Express): Promise<Server> {
         moduleId: "phone",
         price: 7900, // €79.00
         status: "active",
-        stripeSubscriptionId: null,
+        stripeSubscriptionId: "sub_phone_demo_123",
         startDate: new Date()
       });
       
-      // Create demo agent configs
+      // Add Social Media Agent - NEW!
+      await storage.createSubscription({
+        userId: mockUserId,
+        moduleId: "social",
+        price: 5900, // €59.00
+        status: "active",
+        stripeSubscriptionId: "sub_social_demo_123",
+        startDate: new Date()
+      });
+      
+      // Create ADVANCED agent configs for ALL products
       await storage.createAgentConfig({
         userId: mockUserId,
         moduleId: "chat",
         isActive: true,
         configuration: {
-          welcomeMessage: "Hello! How can I help you today?",
-          brandVoice: "friendly and professional",
-          leadCaptureEnabled: true
+          welcomeMessage: "Welcome to AIDevelo.AI! I'm your AI assistant ready to help with automation solutions.",
+          brandVoice: "professional, knowledgeable, and solution-focused",
+          leadCaptureEnabled: true,
+          appointmentBooking: true,
+          escalationEnabled: true,
+          maxConversationLength: 50,
+          responseTime: "instant"
+        },
+        knowledgeBase: {
+          companyInfo: "AIDevelo.AI - Leading AI automation platform helping businesses scale with intelligent agents",
+          services: [
+            "AI Chat Agent - €49/month - Automated customer support and lead generation",
+            "AI Phone Agent - €79/month - Intelligent call handling and appointment booking", 
+            "AI Social Media Agent - €59/month - Content creation and posting automation"
+          ],
+          faq: [
+            { question: "What's included in the Chat Agent?", answer: "24/7 automated chat support, lead capture forms, appointment booking, and CRM integration." },
+            { question: "How does the Phone Agent work?", answer: "Handles incoming calls, qualifies leads, books appointments, and can transfer to human agents when needed." },
+            { question: "Can the Social Media Agent post to multiple platforms?", answer: "Yes! It supports Facebook, Instagram, LinkedIn, and Twitter with automated content scheduling." },
+            { question: "Is there a setup fee?", answer: "No setup fees! We include free onboarding and configuration for all plans." },
+            { question: "How quickly can I get started?", answer: "Most clients are up and running within 24 hours with our express setup process." }
+          ],
+          businessHours: "Monday-Friday 9AM-6PM CET",
+          contactInfo: {
+            email: "hello@aidevelo.ai",
+            phone: "+49 123 456 7890",
+            website: "https://aidevelo.ai"
+          }
         }
       });
       
       await storage.createAgentConfig({
         userId: mockUserId,
-        moduleId: "phone",
+        moduleId: "phone", 
         isActive: true,
         configuration: {
-          greeting: "Thank you for calling AIDevelo.AI, how can I assist you?",
+          greeting: "Thank you for calling AIDevelo.AI, your AI automation partner. How can I help you today?",
           appointmentBooking: true,
-          businessHours: "9AM-6PM CET"
+          leadQualification: true,
+          callRecording: true,
+          businessHours: "Monday-Friday 9AM-6PM CET",
+          afterHoursMessage: "We're currently closed. Please leave a message or schedule a callback.",
+          transferKeywords: ["human", "manager", "urgent", "complaint"],
+          maxCallDuration: 15
+        }
+      });
+      
+      await storage.createAgentConfig({
+        userId: mockUserId,
+        moduleId: "social",
+        isActive: true,
+        configuration: {
+          platforms: ["facebook", "instagram", "linkedin", "twitter"],
+          postingSchedule: {
+            frequency: "daily",
+            times: ["09:00", "13:00", "17:00"],
+            timezone: "Europe/Berlin"
+          },
+          contentTypes: ["promotional", "educational", "industry_news", "company_updates"],
+          brandVoice: "professional, engaging, informative",
+          hashtagStrategy: "industry-relevant, trending, branded",
+          engagementTracking: true,
+          autoRespond: true,
+          contentApproval: false
         }
       });
       
       res.json({
         success: true,
-        message: "Demo data created successfully"
+        message: "✅ PRO Account Created! All AI products activated with advanced configurations.",
+        data: {
+          userId: mockUserId,
+          activeProducts: [
+            {
+              name: "AI Chat Agent",
+              price: "€49/month",
+              status: "active",
+              features: ["24/7 Support", "Lead Capture", "Appointment Booking", "CRM Integration"]
+            },
+            {
+              name: "AI Phone Agent", 
+              price: "€79/month",
+              status: "active",
+              features: ["Call Handling", "Lead Qualification", "Call Recording", "Human Transfer"]
+            },
+            {
+              name: "AI Social Media Agent",
+              price: "€59/month", 
+              status: "active",
+              features: ["Multi-Platform Posting", "Content Generation", "Engagement Tracking", "Auto-Response"]
+            }
+          ],
+          totalValue: "€187/month",
+          setupStatus: "Ready to use"
+        }
       });
     } catch (error) {
       console.error("Error creating demo data:", error);

@@ -64,9 +64,10 @@ export default function ModularLandingPage() {
                   onClick={createDemoData}
                   disabled={demoDataCreated}
                   variant="outline"
+                  className="font-semibold"
                   data-testid="button-create-demo-data"
                 >
-                  {demoDataCreated ? '✓ Demo Data Created' : 'Create Demo Data'}
+                  {demoDataCreated ? '✅ PRO Account Active - All Products Unlocked!' : '🚀 Create PRO Account (All AI Products)'}
                 </Button>
                 
                 <Button 
