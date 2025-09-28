@@ -6,8 +6,8 @@ import { setupVite, serveStatic, log } from "./vite";
 const app = express();
 
 // CORS configuration for widget embedding
-app.use(cors({
-  origin: function (origin, callback) {
+const corsOptions = {
+  origin: function (origin: string | undefined, callback: (error: Error | null, success?: boolean) => void) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
@@ -15,10 +15,13 @@ app.use(cors({
     // In production, you might want to restrict this to verified domains
     callback(null, true);
   },
-  credentials: true,
+  credentials: false, // Widget doesn't need credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Enable preflight for all routes
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

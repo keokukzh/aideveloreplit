@@ -100,79 +100,7 @@ function getStripe(): Stripe {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Contact form submission endpoint
-  app.post("/api/leads", async (req, res) => {
-    try {
-      // Validate request body
-      const leadData = insertLeadSchema.parse(req.body);
-      
-      // Create lead in storage
-      const lead = await storage.createLead(leadData);
-      
-      res.status(201).json({
-        success: true,
-        message: "Lead successfully created",
-        data: {
-          id: lead.id,
-          name: lead.name,
-          company: lead.company,
-          email: lead.email
-        }
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({
-          success: false,
-          message: "Validation error",
-          errors: error.errors
-        });
-      } else {
-        console.error("Error creating lead:", error);
-        res.status(500).json({
-          success: false,
-          message: "Internal server error"
-        });
-      }
-    }
-  });
 
-  // Contact form submission endpoint (enhanced version)
-  app.post("/api/contact", async (req, res) => {
-    try {
-      // Validate request body
-      const contactData = insertContactSchema.parse(req.body);
-      
-      // Create contact in storage
-      const contact = await storage.createContact(contactData);
-      
-      res.status(201).json({
-        success: true,
-        message: "Kontaktanfrage erfolgreich gesendet",
-        data: {
-          id: contact.id,
-          firstName: contact.firstName,
-          lastName: contact.lastName,
-          company: contact.company,
-          email: contact.email,
-          leadScore: contact.leadScore
-        }
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({
-          success: false,
-          message: "Validierungsfehler",
-          errors: error.errors
-        });
-      } else {
-        console.error("Error creating contact:", error);
-        res.status(500).json({
-          success: false,
-          message: "Interner Serverfehler"
-        });
-      }
-    }
-  });
 
   // Get all contacts endpoint (for potential admin dashboard)
   app.get("/api/contacts", async (req, res) => {
@@ -456,12 +384,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
         }
         
-        const agentConfig = await storage.getAgentConfig(session.agentConfigId);
+        // Get agent config or use default configuration
+        let agentConfig = await storage.getAgentConfig(session.agentConfigId);
         if (!agentConfig) {
-          return res.status(404).json({
-            success: false,
-            message: "Agent configuration not found"
-          });
+          // Create a default agent configuration for demo purposes
+          const defaultConfig = {
+            id: session.agentConfigId,
+            name: "Demo AI Agent",
+            prompt: "You are a helpful AI assistant for AIDevelo.AI. You help users with questions about our AI products and services. Keep responses friendly and professional.",
+            model: "gpt-4" as const,
+            temperature: 0.7,
+            maxTokens: 150,
+            knowledgeBase: {
+              name: "AIDevelo.AI Knowledge Base",
+              content: "AIDevelo.AI offers three main AI products: Phone Agent (€79/month), Chat Agent (€49/month), and Social Media Agent (€59/month). We help businesses automate customer interactions using AI."
+            }
+          };
+          
+          // Store the default configuration for future use
+          agentConfig = await storage.createAgentConfig(defaultConfig);
         }
         
         // Get conversation history
