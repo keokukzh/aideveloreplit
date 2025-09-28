@@ -474,26 +474,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Get agent config or use default configuration
         let agentConfig = await storage.getAgentConfig(session.agentConfigId);
         if (!agentConfig) {
-          // Create a default agent configuration for demo purposes
-          const defaultConfig = {
-            userId: "demo-user-123",
-            moduleId: "chat",
-            isActive: true,
-            configuration: {
-              name: "Demo AI Agent",
-              prompt: "You are a helpful AI assistant for AIDevelo.AI. You help users with questions about our AI products and services. Keep responses friendly and professional.",
-              model: "gpt-4",
-              temperature: 0.7,
-              maxTokens: 150
-            },
-            knowledgeBase: {
-              name: "AIDevelo.AI Knowledge Base",
-              content: "AIDevelo.AI offers three main AI products: Phone Agent (€79/month), Chat Agent (€49/month), and Social Media Agent (€59/month). We help businesses automate customer interactions using AI."
-            }
-          };
+          // Check if there's already a default chat config for this user to avoid duplicates
+          const existingConfigs = await storage.getUserAgentConfigs("demo-user-123");
+          const existingChatConfig = existingConfigs.find(config => config.moduleId === "chat");
           
-          // Store the default configuration for future use
-          agentConfig = await storage.createAgentConfig(defaultConfig);
+          if (existingChatConfig) {
+            // Use existing config and update session to reference it
+            agentConfig = existingChatConfig;
+            // Update session with correct agent config ID
+            await storage.updateChatSession(sessionId, { agentConfigId: existingChatConfig.id });
+          } else {
+            // Create a new default agent configuration
+            const defaultConfig = {
+              userId: "demo-user-123",
+              moduleId: "chat",
+              isActive: true,
+              configuration: {
+                name: "Demo AI Agent",
+                prompt: "You are a helpful AI assistant for AIDevelo.AI. You help users with questions about our AI products and services. Keep responses friendly and professional.",
+                model: "gpt-4",
+                temperature: 0.7,
+                maxTokens: 150
+              },
+              knowledgeBase: {
+                name: "AIDevelo.AI Knowledge Base",
+                content: "AIDevelo.AI offers three main AI products: Phone Agent (€79/month), Chat Agent (€49/month), and Social Media Agent (€59/month). We help businesses automate customer interactions using AI."
+              }
+            };
+            
+            // Store the default configuration for future use
+            agentConfig = await storage.createAgentConfig(defaultConfig);
+            // Update session with correct agent config ID
+            await storage.updateChatSession(sessionId, { agentConfigId: agentConfig.id });
+          }
         }
         
         // Get conversation history

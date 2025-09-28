@@ -44,6 +44,7 @@ export interface IStorage {
   // Chat functionality
   createChatSession(session: InsertChatSession): Promise<ChatSession>;
   getChatSession(id: string): Promise<ChatSession | undefined>;
+  updateChatSession(id: string, updates: Partial<ChatSession>): Promise<ChatSession | undefined>;
   createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
   getChatMessages(sessionId: string): Promise<ChatMessage[]>;
   
@@ -294,6 +295,15 @@ export class MemStorage implements IStorage {
 
   async getChatSession(id: string): Promise<ChatSession | undefined> {
     return this.chatSessions.get(id);
+  }
+
+  async updateChatSession(id: string, updates: Partial<ChatSession>): Promise<ChatSession | undefined> {
+    const existingSession = this.chatSessions.get(id);
+    if (!existingSession) return undefined;
+    
+    const updatedSession = { ...existingSession, ...updates, updatedAt: new Date() };
+    this.chatSessions.set(id, updatedSession);
+    return updatedSession;
   }
 
   async createChatMessage(insertMessage: InsertChatMessage): Promise<ChatMessage> {
