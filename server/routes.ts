@@ -3,6 +3,15 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertLeadSchema, insertContactSchema } from "@shared/schema";
 import { z } from "zod";
+import Stripe from "stripe";
+
+// Initialize Stripe with secret key from javascript_stripe integration
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-10-16",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission endpoint
@@ -109,6 +118,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Internal server error"
+      });
+    }
+  });
+
+  // Stripe payment route for one-time payments (from javascript_stripe integration)
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const { amount, selectedModuleIds } = req.body;
+      
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid amount" 
+        });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "eur", // Use EUR for German market
+        metadata: {
+          selectedModules: selectedModuleIds?.join(',') || '',
+        },
+      });
+      
+      res.json({ 
+        success: true,
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id
+      });
+    } catch (error: any) {
+      console.error("Error creating payment intent:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Error creating payment intent: " + error.message 
       });
     }
   });
