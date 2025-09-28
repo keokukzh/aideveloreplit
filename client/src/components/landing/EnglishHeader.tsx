@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link } from "wouter";
 import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
 
 export default function EnglishHeader() {
@@ -50,6 +51,14 @@ export default function EnglishHeader() {
               References
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </a>
+            <Link 
+              href="/dashboard" 
+              className="text-muted-foreground hover:text-primary transition-all duration-300 font-medium relative group"
+              data-testid="link-dashboard"
+            >
+              My Dashboard
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </Link>
             <Button size="lg" className="" data-testid="button-cta-header">
               Start Free Trial
             </Button>
@@ -95,6 +104,14 @@ export default function EnglishHeader() {
               >
                 References
               </a>
+              <Link 
+                href="/dashboard" 
+                className="text-muted-foreground hover:text-primary transition-all duration-300 py-2 px-3 rounded-lg hover-elevate"
+                onClick={() => setIsMenuOpen(false)}
+                data-testid="link-dashboard-mobile"
+              >
+                My Dashboard
+              </Link>
               <Button 
                 className="w-full" 
                 onClick={() => setIsMenuOpen(false)}

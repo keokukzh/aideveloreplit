@@ -177,8 +177,95 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // In production, this would come from authentication
       const mockUserId = "demo-user-123";
       
-      const subscriptions = await storage.getUserSubscriptions(mockUserId);
-      const agentConfigs = await storage.getUserAgentConfigs(mockUserId);
+      let subscriptions = await storage.getUserSubscriptions(mockUserId);
+      let agentConfigs = await storage.getUserAgentConfigs(mockUserId);
+      
+      // If no data exists, create demo data for immediate testing
+      if (subscriptions.length === 0) {
+        // Create demo subscriptions for all three products
+        await storage.createSubscription({
+          userId: mockUserId,
+          moduleId: "chat",
+          price: 4900,
+          status: "active",
+          stripeSubscriptionId: "sub_chat_demo_123",
+          startDate: new Date()
+        });
+        
+        await storage.createSubscription({
+          userId: mockUserId,
+          moduleId: "phone", 
+          price: 7900,
+          status: "active",
+          stripeSubscriptionId: "sub_phone_demo_123",
+          startDate: new Date()
+        });
+        
+        await storage.createSubscription({
+          userId: mockUserId,
+          moduleId: "social",
+          price: 5900,
+          status: "active", 
+          stripeSubscriptionId: "sub_social_demo_123",
+          startDate: new Date()
+        });
+        
+        // Create demo agent configurations
+        await storage.createAgentConfig({
+          userId: mockUserId,
+          moduleId: "chat",
+          isActive: true,
+          configuration: {
+            name: "Demo Chat Agent",
+            prompt: "You are a helpful AI assistant for AIDevelo.AI. Help users with questions about our AI products.",
+            model: "gpt-4",
+            temperature: 0.7,
+            maxTokens: 150
+          },
+          knowledgeBase: {
+            name: "AIDevelo.AI Knowledge Base",
+            content: "AIDevelo.AI offers AI automation tools for businesses."
+          }
+        });
+        
+        await storage.createAgentConfig({
+          userId: mockUserId,
+          moduleId: "phone",
+          isActive: true,
+          configuration: {
+            name: "Demo Phone Agent",
+            prompt: "You are an AI phone assistant that helps with customer inquiries and appointment booking.",
+            model: "gpt-4",
+            temperature: 0.7,
+            maxTokens: 200
+          },
+          knowledgeBase: {
+            name: "Business Phone Scripts",
+            content: "Professional phone assistance for customer service and lead qualification."
+          }
+        });
+        
+        await storage.createAgentConfig({
+          userId: mockUserId,
+          moduleId: "social",
+          isActive: true,
+          configuration: {
+            name: "Demo Social Media Agent", 
+            prompt: "You are an AI social media assistant that creates engaging content and manages social platforms.",
+            model: "gpt-4",
+            temperature: 0.8,
+            maxTokens: 180
+          },
+          knowledgeBase: {
+            name: "Social Media Best Practices",
+            content: "Content creation strategies and social media engagement tactics."
+          }
+        });
+        
+        // Refresh data after creation
+        subscriptions = await storage.getUserSubscriptions(mockUserId);
+        agentConfigs = await storage.getUserAgentConfigs(mockUserId);
+      }
       
       // Calculate stats from agent configs
       let totalChats = 0;
@@ -389,12 +476,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (!agentConfig) {
           // Create a default agent configuration for demo purposes
           const defaultConfig = {
-            id: session.agentConfigId,
-            name: "Demo AI Agent",
-            prompt: "You are a helpful AI assistant for AIDevelo.AI. You help users with questions about our AI products and services. Keep responses friendly and professional.",
-            model: "gpt-4" as const,
-            temperature: 0.7,
-            maxTokens: 150,
+            userId: "demo-user-123",
+            moduleId: "chat",
+            isActive: true,
+            configuration: {
+              name: "Demo AI Agent",
+              prompt: "You are a helpful AI assistant for AIDevelo.AI. You help users with questions about our AI products and services. Keep responses friendly and professional.",
+              model: "gpt-4",
+              temperature: 0.7,
+              maxTokens: 150
+            },
             knowledgeBase: {
               name: "AIDevelo.AI Knowledge Base",
               content: "AIDevelo.AI offers three main AI products: Phone Agent (€79/month), Chat Agent (€49/month), and Social Media Agent (€59/month). We help businesses automate customer interactions using AI."
