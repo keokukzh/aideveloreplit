@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CreditCard, Shield, CheckCircle } from "lucide-react";
-import { type Module } from "@/lib/pricing/config";
+import { type Module } from "@/lib/pricing/types";
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
@@ -174,12 +174,7 @@ const CheckoutForm = ({ modules, total }: { modules: Module[], total: number }) 
   );
 };
 
-interface CheckoutPageProps {
-  selectedModuleIds?: string[];
-  total?: number;
-}
-
-export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: CheckoutPageProps) {
+export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
   const [modules, setModules] = useState<Module[]>([]);
   const [, setLocation] = useLocation();
@@ -187,8 +182,8 @@ export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: Chec
   useEffect(() => {
     // Get URL params for checkout data
     const urlParams = new URLSearchParams(window.location.search);
-    const moduleIds = urlParams.get('modules')?.split(',') || selectedModuleIds;
-    const amount = parseFloat(urlParams.get('total') || total.toString());
+    const moduleIds = urlParams.get('modules')?.split(',') || [];
+    const amount = parseFloat(urlParams.get('total') || '0');
 
     if (!moduleIds.length || !amount) {
       setLocation('/');
@@ -218,7 +213,7 @@ export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: Chec
         console.error('Error creating payment intent:', error);
         setLocation('/');
       });
-  }, [selectedModuleIds, total, setLocation]);
+  }, [setLocation]);
 
   if (!clientSecret || !modules.length) {
     return (
@@ -231,10 +226,13 @@ export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: Chec
     );
   }
 
+  // Calculate total from modules
+  const calculatedTotal = modules.reduce((sum, module) => sum + module.price, 0);
+
   // Make SURE to wrap the form in <Elements> which provides the stripe context.
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutForm modules={modules} total={total} />
+      <CheckoutForm modules={modules} total={calculatedTotal} />
     </Elements>
   );
 }
