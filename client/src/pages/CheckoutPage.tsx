@@ -36,7 +36,7 @@ const CheckoutForm = ({ modules, total }: { modules: Module[], total: number }) 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/payment-success`,
+        return_url: `${window.location.origin}/payment-success?modules=${modules.map(m => m.id).join(',')}&total=${total.toFixed(2)}`,
       },
     });
 
@@ -48,10 +48,10 @@ const CheckoutForm = ({ modules, total }: { modules: Module[], total: number }) 
       });
     } else {
       toast({
-        title: "Payment Successful",
+        title: "Payment Successful", 
         description: "Thank you for your purchase!",
       });
-      setLocation('/');
+      // Redirect will be handled by Stripe's return_url
     }
 
     setIsLoading(false);

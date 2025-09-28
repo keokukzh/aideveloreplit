@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ModularLandingPage from "@/pages/ModularLandingPage";
 import CheckoutPage from "@/pages/CheckoutPage";
+import PaymentSuccessPage from "@/pages/PaymentSuccessPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -12,6 +13,7 @@ function Router() {
     <Switch>
       <Route path="/" component={ModularLandingPage} />
       <Route path="/checkout" component={CheckoutPage} />
+      <Route path="/payment-success" component={PaymentSuccessPage} />
       <Route component={NotFound} />
     </Switch>
   );
