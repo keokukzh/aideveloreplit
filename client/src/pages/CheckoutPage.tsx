@@ -226,8 +226,10 @@ export default function CheckoutPage() {
     );
   }
 
-  // Calculate total from modules
-  const calculatedTotal = modules.reduce((sum, module) => sum + module.price, 0);
+  // Use the actual discounted total from URL params or calculate from modules
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlTotal = parseFloat(urlParams.get('total') || '0');
+  const calculatedTotal = urlTotal || modules.reduce((sum, module) => sum + module.price, 0);
 
   // Make SURE to wrap the form in <Elements> which provides the stripe context.
   return (
