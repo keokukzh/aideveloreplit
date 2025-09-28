@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ModularLandingPage from "@/pages/ModularLandingPage";
 import CheckoutPage from "@/pages/CheckoutPage";
 import PaymentSuccessPage from "@/pages/PaymentSuccessPage";
+import DashboardPage from "@/pages/DashboardPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={ModularLandingPage} />
       <Route path="/checkout" component={CheckoutPage} />
       <Route path="/payment-success" component={PaymentSuccessPage} />
+      <Route path="/dashboard" component={DashboardPage} />
       <Route component={NotFound} />
     </Switch>
   );
