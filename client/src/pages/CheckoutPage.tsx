@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, CreditCard, Shield, CheckCircle } from "lucide-react";
-import { ModuleConfig } from "@/lib/pricing/config";
+import { type Module } from "@/lib/pricing/config";
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
@@ -17,7 +17,7 @@ if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
 }
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-const CheckoutForm = ({ modules, total }: { modules: ModuleConfig[], total: number }) => {
+const CheckoutForm = ({ modules, total }: { modules: Module[], total: number }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
@@ -181,7 +181,7 @@ interface CheckoutPageProps {
 
 export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: CheckoutPageProps) {
   const [clientSecret, setClientSecret] = useState("");
-  const [modules, setModules] = useState<ModuleConfig[]>([]);
+  const [modules, setModules] = useState<Module[]>([]);
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -195,9 +195,9 @@ export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: Chec
       return;
     }
 
-    // Load module configs (this would typically come from the pricing config)
-    import('@/lib/pricing/config').then(({ modules: moduleConfigs }) => {
-      const selectedModules = moduleConfigs.filter(m => moduleIds.includes(m.id));
+    // Load module configs from the pricing config
+    import('@/lib/pricing/config').then((config) => {
+      const selectedModules = config.MODULES.filter((m: Module) => moduleIds.includes(m.id));
       setModules(selectedModules);
     });
 
@@ -206,6 +206,7 @@ export default function CheckoutPage({ selectedModuleIds = [], total = 0 }: Chec
       amount, 
       selectedModuleIds: moduleIds 
     })
+      .then((response) => response.json())
       .then((data) => {
         if (data.success) {
           setClientSecret(data.clientSecret);
