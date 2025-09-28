@@ -22,6 +22,33 @@ const chatMessageSchema = z.object({
   sender: z.enum(['user', 'agent'], { required_error: "Sender must be 'user' or 'agent'" })
 });
 
+// Phone API validation schemas
+const phoneProvisionSchema = z.object({
+  calendarProvider: z.enum(['google', 'microsoft'], { required_error: "Calendar provider must be 'google' or 'microsoft'" })
+});
+
+const phoneTestCallSchema = z.object({
+  to: z.string().min(1, "Phone number is required")
+});
+
+// Chat Widget validation schemas
+const chatVerifyInstallSchema = z.object({
+  widgetKey: z.string().min(1, "Widget key is required"),
+  origin: z.string().url("Origin must be a valid URL")
+});
+
+// Social Media API validation schemas
+const socialConnectSchema = z.object({
+  provider: z.enum(['facebook', 'instagram', 'linkedin', 'twitter'], { 
+    required_error: "Provider must be one of: facebook, instagram, linkedin, twitter" 
+  })
+});
+
+const socialScheduleDraftSchema = z.object({
+  text: z.string().min(1, "Post text is required"),
+  when: z.string().optional()
+});
+
 // Rate limiting map (simple in-memory rate limiting)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
@@ -651,7 +678,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Phone Agent API - Provision phone service
   app.post("/api/phone/provision", async (req, res) => {
     try {
-      const { calendarProvider } = req.body;
+      // Validate request body
+      const validationResult = phoneProvisionSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation error",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const { calendarProvider } = validationResult.data;
       
       // Simulate provisioning delay
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -678,14 +715,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Phone Agent API - Run test call
   app.post("/api/phone/test-call", async (req, res) => {
     try {
-      const { to } = req.body;
-      
-      if (!to) {
+      // Validate request body
+      const validationResult = phoneTestCallSchema.safeParse(req.body);
+      if (!validationResult.success) {
         return res.status(400).json({
           success: false,
-          message: "Phone number is required"
+          message: "Validation error",
+          errors: validationResult.error.errors
         });
       }
+
+      const { to } = validationResult.data;
       
       // Simulate test call delay
       await new Promise(resolve => setTimeout(resolve, 3000));
@@ -734,14 +774,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Chat Agent API - Verify widget installation
   app.post("/api/chat/verify-install", async (req, res) => {
     try {
-      const { widgetKey, origin } = req.body;
-      
-      if (!widgetKey || !origin) {
+      // Validate request body
+      const validationResult = chatVerifyInstallSchema.safeParse(req.body);
+      if (!validationResult.success) {
         return res.status(400).json({
           success: false,
-          message: "Widget key and origin URL are required"
+          message: "Validation error",
+          errors: validationResult.error.errors
         });
       }
+
+      const { widgetKey, origin } = validationResult.data;
       
       // Simulate verification delay
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -770,14 +813,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Social Media Agent API - Connect social platform
   app.post("/api/social/connect", async (req, res) => {
     try {
-      const { provider } = req.body;
-      
-      if (!provider) {
+      // Validate request body
+      const validationResult = socialConnectSchema.safeParse(req.body);
+      if (!validationResult.success) {
         return res.status(400).json({
           success: false,
-          message: "Provider is required"
+          message: "Validation error",
+          errors: validationResult.error.errors
         });
       }
+
+      const { provider } = validationResult.data;
       
       // Simulate OAuth connection delay
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -805,14 +851,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Social Media Agent API - Schedule draft post
   app.post("/api/social/schedule-draft", async (req, res) => {
     try {
-      const { text, when } = req.body;
-      
-      if (!text) {
+      // Validate request body
+      const validationResult = socialScheduleDraftSchema.safeParse(req.body);
+      if (!validationResult.success) {
         return res.status(400).json({
           success: false,
-          message: "Post text is required"
+          message: "Validation error",
+          errors: validationResult.error.errors
         });
       }
+
+      const { text, when } = validationResult.data;
       
       // Simulate scheduling delay
       await new Promise(resolve => setTimeout(resolve, 1000));

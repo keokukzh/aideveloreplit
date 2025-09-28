@@ -1,13 +1,17 @@
 (function() {
   'use strict';
 
-  // Configuration
-  const API_BASE = window.location.origin;
+  // Configuration - Use script's origin for API calls to avoid cross-origin issues
+  const currentScript = document.currentScript || (function() {
+    const scripts = document.getElementsByTagName('script');
+    return scripts[scripts.length - 1];
+  })();
+  
+  const API_BASE = new URL(currentScript.src).origin;
   const WIDGET_ID = 'aidevelo-chat-widget';
   
-  // Get widget key from script tag
-  const widgetScript = document.querySelector('script[data-key]');
-  const WIDGET_KEY = widgetScript?.getAttribute('data-key');
+  // Get widget key from current script tag
+  const WIDGET_KEY = currentScript?.getAttribute('data-key');
   
   if (!WIDGET_KEY) {
     console.error('AIDevelo.AI Chat Widget: No widget key found. Please add data-key attribute to the script tag.');
