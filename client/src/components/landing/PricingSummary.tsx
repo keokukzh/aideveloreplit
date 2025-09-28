@@ -124,9 +124,6 @@ export default function PricingSummary({ selectedModuleIds }: PricingSummaryProp
               </HolographicButton>
               
               <div className="text-center mt-4 space-y-1">
-                <p className="text-sm text-muted-foreground">
-                  14-day free trial • Cancel anytime
-                </p>
                 <p className="text-xs text-muted-foreground">
                   All prices exclude VAT
                 </p>
@@ -136,7 +133,7 @@ export default function PricingSummary({ selectedModuleIds }: PricingSummaryProp
             {/* Trust indicators */}
             <div className="flex items-center justify-center gap-6 pt-4 border-t border-border">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                ✅ 14-day guarantee
+                ✅ Money-back guarantee
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 ✅ No setup fees

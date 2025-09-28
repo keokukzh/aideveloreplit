@@ -60,7 +60,7 @@ export default function EnglishHeader() {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Button size="lg" className="" data-testid="button-cta-header">
-              Start Free Trial
+              Get Started
             </Button>
           </div>
           
@@ -117,7 +117,7 @@ export default function EnglishHeader() {
                 onClick={() => setIsMenuOpen(false)}
                 data-testid="button-cta-mobile"
               >
-                Start Free Trial
+                Get Started
               </Button>
             </div>
           </div>

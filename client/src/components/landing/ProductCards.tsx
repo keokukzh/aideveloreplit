@@ -119,7 +119,7 @@ export default function ProductCards({ selectedModuleIds, onModuleToggle }: Prod
         
         <div className="text-center mt-12">
           <p className="text-sm text-muted-foreground">
-            All prices exclude VAT • 14-day free trial • Cancel anytime
+            All prices exclude VAT
           </p>
         </div>
       </div>

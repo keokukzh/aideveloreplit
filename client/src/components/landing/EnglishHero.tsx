@@ -29,10 +29,6 @@ export default function EnglishHero() {
             AI-Powered
           </Badge>
           <Badge variant="secondary" className="text-xs">
-            <Zap className="w-3 h-3 mr-1" />
-            14-Day Free Trial
-          </Badge>
-          <Badge variant="secondary" className="text-xs">
             <Users className="w-3 h-3 mr-1" />
             SME Focused
           </Badge>
