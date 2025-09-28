@@ -55,13 +55,20 @@ function checkRateLimit(identifier: string, maxRequests: number = 30, windowMs: 
   return true;
 }
 
-// Initialize Stripe with secret key from javascript_stripe integration
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+// Lazy initialize Stripe when needed
+let stripe: Stripe | null = null;
+
+function getStripe(): Stripe {
+  if (!stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+    }
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-08-27.basil",
+    });
+  }
+  return stripe;
 }
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-08-27.basil",
-});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission endpoint
@@ -184,7 +191,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const paymentIntent = await stripe.paymentIntents.create({
+      const paymentIntent = await getStripe().paymentIntents.create({
         amount: Math.round(amount * 100), // Convert to cents
         currency: "eur", // Use EUR for German market
         metadata: {
@@ -256,6 +263,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Internal server error"
+      });
+    }
+  });
+
+  // Contact form submission endpoint with rate limiting
+  app.post("/api/leads", async (req, res) => {
+    try {
+      // Rate limiting for lead submissions
+      const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
+      if (!checkRateLimit(`leads_${clientIp}`, 5, 60000)) { // 5 leads per minute
+        return res.status(429).json({
+          success: false,
+          message: "Too many lead submissions. Please try again later."
+        });
+      }
+
+      const validationResult = insertLeadSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation error",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const leadData = await storage.createLead(validationResult.data);
+      
+      res.json({
+        success: true,
+        data: leadData
+      });
+    } catch (error) {
+      console.error('Error creating lead:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to submit contact information"
+      });
+    }
+  });
+
+  // Contact form submission endpoint with rate limiting
+  app.post("/api/contact", async (req, res) => {
+    try {
+      // Rate limiting for contact submissions
+      const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
+      if (!checkRateLimit(`contact_${clientIp}`, 5, 60000)) { // 5 contacts per minute
+        return res.status(429).json({
+          success: false,
+          message: "Too many contact submissions. Please try again later."
+        });
+      }
+
+      const validationResult = insertContactSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation error",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const contactData = await storage.createContact(validationResult.data);
+      
+      res.json({
+        success: true,
+        data: contactData
+      });
+    } catch (error) {
+      console.error('Error creating contact:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to submit contact form"
       });
     }
   });
