@@ -24,3 +24,12 @@ export interface PricingConfig {
     discountPercent: number;
   }[];
 }
+
+export interface ProductActivation {
+  moduleId: string;
+  status: 'inactive' | 'provisioning' | 'active';
+  activatedAt?: string;
+  onboardingCompleted?: boolean;
+}
+
+export type ActiveProducts = Record<string, ProductActivation>;
