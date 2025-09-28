@@ -9,9 +9,9 @@ export default function EnglishHeader() {
   return (
     <header className="sticky top-0 z-50 glass-intense border-b border-white/10">
       <div className="container mx-auto max-w-6xl">
-        <nav className="flex h-20 items-center justify-between px-4">
+        <nav className="relative flex h-20 items-center px-4">
           {/* Left Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6 flex-1">
             <a 
               href="#products" 
               className="text-muted-foreground hover:text-primary transition-all duration-300 font-medium relative group"
@@ -30,8 +30,8 @@ export default function EnglishHeader() {
             </a>
           </div>
           
-          {/* Centered Logo */}
-          <div className="flex items-center">
+          {/* Perfectly Centered Logo */}
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <img 
               src={mainLogoImage} 
               alt="AIDevelo.AI Logo" 
@@ -41,7 +41,7 @@ export default function EnglishHeader() {
           </div>
           
           {/* Right Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
             <a 
               href="#references" 
               className="text-muted-foreground hover:text-primary transition-all duration-300 font-medium relative group"
@@ -59,7 +59,7 @@ export default function EnglishHeader() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="lg:hidden"
+            className="lg:hidden ml-auto"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             data-testid="button-menu-toggle"
           >
