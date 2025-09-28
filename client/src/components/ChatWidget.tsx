@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, X, Send, Minimize2, Maximize2 } from "lucide-react";
+import { MessageCircle, X, Send, Minimize2, Maximize2, User, Mail, Phone } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
 interface ChatMessage {
@@ -43,6 +43,14 @@ export default function ChatWidget({
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadFormData, setLeadFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    message: ''
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const positionClasses = {
@@ -132,6 +140,33 @@ export default function ChatWidget({
 
         setMessages(prev => [...prev, agentMessage]);
         
+        // Handle AI actions
+        if (responseData.data.isActionRequired) {
+          switch (responseData.data.actionType) {
+            case 'capture_lead':
+              setShowLeadForm(true);
+              break;
+            case 'book_appointment':
+              const appointmentMessage: ChatMessage = {
+                id: `appointment-${Date.now()}`,
+                sender: 'agent',
+                message: "Great! I'd be happy to help you book an appointment. Please call us at +49 123 456 7890 or email hello@aidevelo.ai to schedule.",
+                timestamp: new Date().toISOString()
+              };
+              setTimeout(() => setMessages(prev => [...prev, appointmentMessage]), 1000);
+              break;
+            case 'escalate_human':
+              const escalateMessage: ChatMessage = {
+                id: `escalate-${Date.now()}`,
+                sender: 'agent',
+                message: "I'll connect you with a human agent. Please hold while I transfer you, or you can contact us directly at hello@aidevelo.ai.",
+                timestamp: new Date().toISOString()
+              };
+              setTimeout(() => setMessages(prev => [...prev, escalateMessage]), 1000);
+              break;
+          }
+        }
+        
         // If chat is minimized, increment unread count
         if (isMinimized) {
           setUnreadCount(prev => prev + 1);
@@ -171,6 +206,92 @@ export default function ChatWidget({
       minute: '2-digit' 
     });
   };
+
+  const submitLeadForm = async () => {
+    try {
+      const response = await apiRequest('POST', '/api/leads', leadFormData);
+      const data = await response.json();
+      
+      if (data.success) {
+        setShowLeadForm(false);
+        setLeadFormData({ name: '', email: '', phone: '', company: '', message: '' });
+        
+        const confirmMessage: ChatMessage = {
+          id: `lead-confirm-${Date.now()}`,
+          sender: 'agent',
+          message: "Thank you! I've captured your information. Someone from our team will contact you within 24 hours.",
+          timestamp: new Date().toISOString()
+        };
+        setMessages(prev => [...prev, confirmMessage]);
+      }
+    } catch (error) {
+      console.error('Error submitting lead form:', error);
+      const errorMessage: ChatMessage = {
+        id: `lead-error-${Date.now()}`,
+        sender: 'agent',
+        message: "Sorry, there was an error capturing your information. Please try again or contact us directly.",
+        timestamp: new Date().toISOString()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    }
+  };
+
+  const LeadCaptureForm = () => (
+    <div className="border-t p-4 bg-muted/20">
+      <h4 className="font-medium mb-3 text-sm">Let's get your contact information:</h4>
+      <div className="space-y-2">
+        <Input
+          placeholder="Your name"
+          value={leadFormData.name}
+          onChange={(e) => setLeadFormData(prev => ({ ...prev, name: e.target.value }))}
+          className="text-sm"
+          data-testid="input-lead-name"
+        />
+        <Input
+          type="email"
+          placeholder="Email address"
+          value={leadFormData.email}
+          onChange={(e) => setLeadFormData(prev => ({ ...prev, email: e.target.value }))}
+          className="text-sm"
+          data-testid="input-lead-email"
+        />
+        <Input
+          placeholder="Phone (optional)"
+          value={leadFormData.phone}
+          onChange={(e) => setLeadFormData(prev => ({ ...prev, phone: e.target.value }))}
+          className="text-sm"
+          data-testid="input-lead-phone"
+        />
+        <Input
+          placeholder="Company"
+          value={leadFormData.company}
+          onChange={(e) => setLeadFormData(prev => ({ ...prev, company: e.target.value }))}
+          className="text-sm"
+          data-testid="input-lead-company"
+        />
+        <div className="flex gap-2 pt-2">
+          <Button
+            onClick={submitLeadForm}
+            disabled={!leadFormData.name || !leadFormData.email || !leadFormData.company}
+            size="sm"
+            className="flex-1"
+            style={{ backgroundColor: brandColor }}
+            data-testid="button-submit-lead"
+          >
+            Submit
+          </Button>
+          <Button
+            onClick={() => setShowLeadForm(false)}
+            variant="outline"
+            size="sm"
+            data-testid="button-cancel-lead"
+          >
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 
   if (position === 'embedded') {
     return (
@@ -216,6 +337,8 @@ export default function ChatWidget({
             )}
             <div ref={messagesEndRef} />
           </div>
+          
+          {showLeadForm && <LeadCaptureForm />}
           
           <div className="border-t p-4">
             <div className="flex gap-2">
@@ -330,6 +453,8 @@ export default function ChatWidget({
                 )}
                 <div ref={messagesEndRef} />
               </div>
+              
+              {showLeadForm && <LeadCaptureForm />}
               
               <div className="border-t p-4">
                 <div className="flex gap-2">

@@ -28,7 +28,7 @@ function checkRateLimit(identifier: string, maxRequests: number = 30, windowMs: 
   const windowStart = now - windowMs;
   
   // Clean up old entries
-  for (const [key, value] of rateLimitMap.entries()) {
+  for (const [key, value] of Array.from(rateLimitMap.entries())) {
     if (value.resetTime < windowStart) {
       rateLimitMap.delete(key);
     }
