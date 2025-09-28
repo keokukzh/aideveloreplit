@@ -2,13 +2,21 @@
 import OpenAI from "openai";
 
 // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('Missing required OpenAI API key: OPENAI_API_KEY');
-}
 
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY 
-});
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY environment variable.');
+    }
+    openai = new OpenAI({ 
+      apiKey: process.env.OPENAI_API_KEY,
+      timeout: 30000 // 30 second timeout
+    });
+  }
+  return openai;
+}
 
 export interface ChatResponse {
   message: string;
@@ -68,20 +76,32 @@ Instructions:
       { role: "user" as const, content: message }
     ];
 
-    const response = await openai.chat.completions.create({
+    const client = getOpenAIClient();
+    const response = await client.chat.completions.create({
       model: "gpt-5", // the newest OpenAI model is "gpt-5" which was released August 7, 2025
       messages,
       response_format: { type: "json_object" },
     });
 
-    const result = JSON.parse(response.choices[0].message.content || '{}');
+    const responseContent = response.choices[0].message.content || '{}';
     
-    return {
-      message: result.message || "I'm here to help! How can I assist you today?",
-      isActionRequired: result.isActionRequired || false,
-      actionType: result.actionType,
-      actionData: result.actionData
-    };
+    // Validate OpenAI response structure
+    try {
+      const result = JSON.parse(responseContent);
+      
+      return {
+        message: typeof result.message === 'string' ? result.message : "I'm here to help! How can I assist you today?",
+        isActionRequired: Boolean(result.isActionRequired),
+        actionType: ['book_appointment', 'capture_lead', 'escalate_human'].includes(result.actionType) ? result.actionType : undefined,
+        actionData: result.actionData || undefined
+      };
+    } catch (parseError) {
+      console.error('Failed to parse OpenAI response:', parseError);
+      return {
+        message: "I'm here to help! How can I assist you today?",
+        isActionRequired: false
+      };
+    }
   } catch (error) {
     console.error('Error generating chat response:', error);
     return {
