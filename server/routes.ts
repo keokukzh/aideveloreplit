@@ -646,6 +646,197 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Phone Agent API - Provision phone service
+  app.post("/api/phone/provision", async (req, res) => {
+    try {
+      const { calendarProvider } = req.body;
+      
+      // Simulate provisioning delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Mock successful provisioning
+      res.json({
+        success: true,
+        data: {
+          phoneNumber: "+49 123 456 7890",
+          twilioAccountSid: "AC" + Math.random().toString(36).substring(2, 36),
+          calendarIntegrated: calendarProvider === 'google' || calendarProvider === 'microsoft',
+          webhookUrl: "https://your-app.replit.app/webhook/phone"
+        }
+      });
+    } catch (error) {
+      console.error("Error provisioning phone:", error);
+      res.status(500).json({
+        success: false,
+        message: "Phone provisioning failed"
+      });
+    }
+  });
+
+  // Phone Agent API - Run test call
+  app.post("/api/phone/test-call", async (req, res) => {
+    try {
+      const { to } = req.body;
+      
+      if (!to) {
+        return res.status(400).json({
+          success: false,
+          message: "Phone number is required"
+        });
+      }
+      
+      // Simulate test call delay
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Mock successful test call
+      res.json({
+        success: true,
+        data: {
+          callSid: "CA" + Math.random().toString(36).substring(2, 36),
+          to: to,
+          status: "completed",
+          duration: "28 seconds",
+          recording: "https://api.twilio.com/recording/test-123",
+          transcript: "Hello, this is a test call from AIDevelo.AI phone agent. The setup is working correctly. Thank you!"
+        }
+      });
+    } catch (error) {
+      console.error("Error making test call:", error);
+      res.status(500).json({
+        success: false,
+        message: "Test call failed"
+      });
+    }
+  });
+
+  // Chat Agent API - Get widget key for installation
+  app.get("/api/chat/widget-key", async (req, res) => {
+    try {
+      // Generate a unique widget key
+      const widgetKey = "widget_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      
+      res.json({
+        ok: true,
+        widgetKey: widgetKey,
+        instructions: "Add this script tag to your website before the closing </body> tag"
+      });
+    } catch (error) {
+      console.error("Error generating widget key:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to generate widget key"
+      });
+    }
+  });
+
+  // Chat Agent API - Verify widget installation
+  app.post("/api/chat/verify-install", async (req, res) => {
+    try {
+      const { widgetKey, origin } = req.body;
+      
+      if (!widgetKey || !origin) {
+        return res.status(400).json({
+          success: false,
+          message: "Widget key and origin URL are required"
+        });
+      }
+      
+      // Simulate verification delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Mock successful verification
+      res.json({
+        success: true,
+        data: {
+          widgetKey: widgetKey,
+          isInstalled: true,
+          origin: origin,
+          verifiedAt: new Date().toISOString(),
+          chatEndpoint: "/api/chat/messages",
+          sessionEndpoint: "/api/chat/sessions"
+        }
+      });
+    } catch (error) {
+      console.error("Error verifying widget install:", error);
+      res.status(500).json({
+        success: false,
+        message: "Widget verification failed"
+      });
+    }
+  });
+
+  // Social Media Agent API - Connect social platform
+  app.post("/api/social/connect", async (req, res) => {
+    try {
+      const { provider } = req.body;
+      
+      if (!provider) {
+        return res.status(400).json({
+          success: false,
+          message: "Provider is required"
+        });
+      }
+      
+      // Simulate OAuth connection delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Mock successful connection
+      res.json({
+        success: true,
+        data: {
+          provider: provider,
+          accountId: provider + "_" + Math.random().toString(36).substring(2, 10),
+          accountName: `Demo ${provider.charAt(0).toUpperCase() + provider.slice(1)} Account`,
+          permissions: ["read", "write", "manage"],
+          connectedAt: new Date().toISOString()
+        }
+      });
+    } catch (error) {
+      console.error("Error connecting social platform:", error);
+      res.status(500).json({
+        success: false,
+        message: "Social platform connection failed"
+      });
+    }
+  });
+
+  // Social Media Agent API - Schedule draft post
+  app.post("/api/social/schedule-draft", async (req, res) => {
+    try {
+      const { text, when } = req.body;
+      
+      if (!text) {
+        return res.status(400).json({
+          success: false,
+          message: "Post text is required"
+        });
+      }
+      
+      // Simulate scheduling delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock successful scheduling
+      res.json({
+        success: true,
+        data: {
+          postId: "post_" + Math.random().toString(36).substring(2, 12),
+          text: text,
+          scheduledFor: when || new Date(Date.now() + 60000).toISOString(),
+          status: "scheduled",
+          platforms: ["facebook", "instagram", "linkedin"],
+          estimatedReach: Math.floor(Math.random() * 500) + 100,
+          createdAt: new Date().toISOString()
+        }
+      });
+    } catch (error) {
+      console.error("Error scheduling post:", error);
+      res.status(500).json({
+        success: false,
+        message: "Post scheduling failed"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
