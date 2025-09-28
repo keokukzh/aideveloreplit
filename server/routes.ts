@@ -5,6 +5,8 @@ import { insertLeadSchema, insertContactSchema } from "@shared/schema";
 import { z } from "zod";
 import Stripe from "stripe";
 import { generateChatResponse, type KnowledgeBase } from "./services/openai";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 // Chat API validation schemas
 const createChatSessionSchema = z.object({
@@ -834,6 +836,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false,
         message: "Post scheduling failed"
       });
+    }
+  });
+
+  // Serve widget.js file for external embedding
+  app.get("/widget.js", (req, res) => {
+    try {
+      const widgetPath = join(__dirname, 'widget.js');
+      const widgetContent = readFileSync(widgetPath, 'utf8');
+      
+      res.setHeader('Content-Type', 'application/javascript');
+      res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+      res.setHeader('Access-Control-Allow-Origin', '*'); // Allow cross-origin requests
+      res.send(widgetContent);
+    } catch (error) {
+      console.error('Error serving widget.js:', error);
+      res.status(404).send('Widget not found');
     }
   });
 
