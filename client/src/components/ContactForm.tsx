@@ -156,7 +156,7 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="py-20 px-4 relative" id="kontakt">
+    <section className="py-20 px-4 relative" id="contact">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl lg:text-5xl font-bold gradient-text" data-testid="heading-contact">
