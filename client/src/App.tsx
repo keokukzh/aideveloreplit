@@ -21,6 +21,7 @@ function Router() {
       <Route path="/checkout" component={CheckoutPage} />
       <Route path="/payment-success" component={PaymentSuccessPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/dashboard/:rest*" component={DashboardPage} />
       <Route path="/onboarding/phone" component={PhoneOnboardingPage} />
       <Route path="/onboarding/chat" component={ChatOnboardingPage} />
       <Route path="/onboarding/social" component={SocialOnboardingPage} />

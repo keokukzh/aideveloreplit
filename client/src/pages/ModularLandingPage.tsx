@@ -37,10 +37,12 @@ export default function ModularLandingPage() {
       <main>
         <EnglishHero />
         
-        <ProductCards 
-          selectedModuleIds={selectedModuleIds}
-          onModuleToggle={toggleModule}
-        />
+        <div id="products">
+          <ProductCards 
+            selectedModuleIds={selectedModuleIds}
+            onModuleToggle={toggleModule}
+          />
+        </div>
         
         <PricingSummary selectedModuleIds={selectedModuleIds} />
         
@@ -48,7 +50,9 @@ export default function ModularLandingPage() {
         
         <FAQ />
         
-        <ContactForm />
+        <div id="contact">
+          <ContactForm />
+        </div>
         
         {/* Demo Section */}
         <section className="py-20 bg-muted/50">

@@ -7,6 +7,11 @@ import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
 export default function EnglishHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const scrollToProducts = () => {
+    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50 glass-intense border-b border-white/10">
       <div className="container mx-auto max-w-6xl">
@@ -33,12 +38,14 @@ export default function EnglishHeader() {
           
           {/* Perfectly Centered Logo */}
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <img 
-              src={mainLogoImage} 
-              alt="AIDevelo.AI Logo" 
-              className="h-12 w-auto invert dark:invert-0 transition-opacity duration-300 hover:opacity-90"
-              data-testid="img-logo"
-            />
+            <Link href="/">
+              <img 
+                src={mainLogoImage} 
+                alt="AIDevelo.AI Logo" 
+                className="h-12 w-auto invert dark:invert-0 transition-opacity duration-300 hover:opacity-90 cursor-pointer"
+                data-testid="img-logo"
+              />
+            </Link>
           </div>
           
           {/* Right Navigation */}
@@ -59,7 +66,7 @@ export default function EnglishHeader() {
               My Dashboard
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Button size="lg" className="" data-testid="button-cta-header">
+            <Button size="lg" className="" data-testid="button-cta-header" onClick={scrollToProducts}>
               Get Started
             </Button>
           </div>
@@ -114,7 +121,7 @@ export default function EnglishHeader() {
               </Link>
               <Button 
                 className="w-full" 
-                onClick={() => setIsMenuOpen(false)}
+                onClick={scrollToProducts}
                 data-testid="button-cta-mobile"
               >
                 Get Started
