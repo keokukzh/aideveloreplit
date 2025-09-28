@@ -35,7 +35,7 @@ export default function EnglishHeader() {
             <img 
               src={mainLogoImage} 
               alt="AIDevelo.AI Logo" 
-              className="h-12 w-auto transition-opacity duration-300 hover:opacity-90"
+              className="h-12 w-auto invert dark:invert-0 transition-opacity duration-300 hover:opacity-90"
               data-testid="img-logo"
             />
           </div>
