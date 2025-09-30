@@ -29,7 +29,7 @@ jobs:
 
       - name: Install and build (monorepo root)
         run: |
-          pnpm install --frozen-lockfile || pnpm install
+          pnpm install
           pnpm build
 
       - name: Publish Worker (client dist as assets)
