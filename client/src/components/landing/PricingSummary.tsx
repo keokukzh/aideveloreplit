@@ -7,6 +7,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { calculatePricing, formatPrice, formatDiscountPercent } from "@/lib/pricing/calc";
 import { startCheckout } from "@/lib/checkout/stripeStub";
 import { HolographicCard, HolographicButton } from "@/components/HolographicUI";
+import { track } from "@/lib/analytics";
 
 interface PricingSummaryProps {
   selectedModuleIds: string[];
@@ -17,6 +18,7 @@ export default function PricingSummary({ selectedModuleIds }: PricingSummaryProp
   
   const handleCheckout = () => {
     if (selectedModuleIds.length === 0) return;
+    track("checkout_start", { modules: selectedModuleIds, total: pricing.total });
     startCheckout(selectedModuleIds, pricing.total);
   };
   

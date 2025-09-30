@@ -1,0 +1,21 @@
+# Project context
+- Monorepo: client (Vite+React+Tailwind+shadcn), server (Node/Express/Hono), shared (Types).
+- DB: Postgres + Drizzle ORM. Migrations via `drizzle-kit` und `.env -> DATABASE_URL`.
+- Coding: TypeScript strict, ESM. Validation mit zod. HTTP JSON.
+- Start: `docker compose up -d db`, `pnpm drizzle:generate && pnpm drizzle:migrate`, `pnpm dev`.
+
+# Conventions
+- Neue Entities: Drizzle-Schema unter `server/db/schema/*.ts`; Zod-Schema unter `shared/zod/*.ts`.
+- API: `server/routes/<entity>.ts` mit zod-Validation, typisierten Responses, Fehler-Handling.
+- Client: `client/src/features/<entity>/...` (Liste + Formular mit shadcn/ui), Data-Fetch per TanStack Query (falls vorhanden) oder fetch.
+- Tests: je Route min. 1 Happy-Path-Test (Stub ok).
+
+# Pull Requests / Diffs
+- Diffs minimal halten, bestehende Patterns wiederverwenden, Kommentare sparsam.
+- Nach jedem Feature: Befehle nennen (migrate, dev) + README Abschnitt aktualisieren.
+
+# Definition of Done
+- DB-Schema + Migration generiert und angewendet
+- API-Routen implementiert + registriert
+- Client-Seiten/Components + Query-Hooks vorhanden
+- Manuell testbar (lokal startbar) + kurze Doku

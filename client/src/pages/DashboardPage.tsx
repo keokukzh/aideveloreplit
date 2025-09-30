@@ -11,13 +11,20 @@ import OverviewPage from "./dashboard/OverviewPage";
 import AgentsPage from "./dashboard/AgentsPage";
 import AnalyticsPage from "./dashboard/AnalyticsPage";
 import SettingsPage from "./dashboard/SettingsPage";
+import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
 
 export default function DashboardPage() {
-  // Fetch user dashboard data
-  const { data: dashboardData, isLoading } = useQuery<DashboardData>({
+  // Fetch user dashboard data with auto-refresh
+  const { data: dashboardData, isLoading, refetch } = useQuery<DashboardData>({
     queryKey: ['/api/dashboard'],
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 30 * 1000, // 30 seconds
+    refetchInterval: 30 * 1000, // Auto-refresh every 30 seconds
+    refetchIntervalInBackground: true,
   });
+
+  const handleRefresh = () => {
+    refetch();
+  };
 
   const getModuleIcon = (moduleId: string) => {
     switch (moduleId) {
@@ -79,11 +86,13 @@ export default function DashboardPage() {
       <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold" data-testid="title-dashboard">AIDevelo.AI Dashboard</h1>
-              <p className="text-muted-foreground" data-testid="text-dashboard-subtitle">
-                Manage your AI agents and monitor performance
-              </p>
+            <div className="flex items-center gap-4">
+              <img
+                src={mainLogoImage}
+                alt="AIDevelo.AI Logo"
+                className="h-10 w-auto invert dark:invert-0"
+                data-testid="img-dashboard-logo"
+              />
             </div>
             <Button 
               variant="outline" 
@@ -115,7 +124,14 @@ export default function DashboardPage() {
                   <SettingsPage />
                 </Route>
                 <Route path="/">
-                  <OverviewPage stats={stats} subscriptions={subscriptions} getModuleIcon={getModuleIcon} getModuleName={getModuleName} />
+                  <OverviewPage 
+                    stats={stats} 
+                    subscriptions={subscriptions} 
+                    getModuleIcon={getModuleIcon} 
+                    getModuleName={getModuleName}
+                    onRefresh={handleRefresh}
+                    isLoading={isLoading}
+                  />
                 </Route>
               </Switch>
             </Router>

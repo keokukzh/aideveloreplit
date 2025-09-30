@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/server",
+    "rootDir": "../",
+    "noEmit": true,
+    "types": ["node", "vitest"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "baseUrl": "../",
+    "paths": { "@shared/*": ["shared/*"] }
+  },
+  "include": ["../server/**/*.ts", "../shared/**/*.ts"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "vite.ts",
+    "vitest.config.ts",
+    "test/**"
+  ]
+}
+
+

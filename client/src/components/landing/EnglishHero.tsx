@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Sparkles, Zap, Users } from "lucide-react";
 import { HolographicCard, HolographicButton } from "@/components/HolographicUI";
+import { track } from "@/lib/analytics";
 
 export default function EnglishHero() {
   const scrollToProducts = () => {
@@ -78,7 +79,7 @@ export default function EnglishHero() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <HolographicButton 
-              onClick={scrollToProducts}
+              onClick={() => { track("cta_click", { location: "hero", cta: "explore_products" }); scrollToProducts(); }}
               className="text-lg font-semibold"
               data-testid="button-explore-products"
             >
@@ -91,7 +92,7 @@ export default function EnglishHero() {
             <Button 
               variant="outline" 
               size="lg"
-              onClick={scrollToContact}
+              onClick={() => { track("cta_click", { location: "hero", cta: "talk_to_expert" }); scrollToContact(); }}
               className="text-lg backdrop-blur-sm bg-background/50"
               data-testid="button-talk-to-expert"
             >

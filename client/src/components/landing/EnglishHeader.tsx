@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link } from "wouter";
 import mainLogoImage from "@assets/IMG_0948_1758859780928.png";
+import { track } from "@/lib/analytics";
 
 export default function EnglishHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -66,7 +67,7 @@ export default function EnglishHeader() {
               My Dashboard
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Button size="lg" className="" data-testid="button-cta-header" onClick={scrollToProducts}>
+            <Button size="lg" className="" data-testid="button-cta-header" onClick={() => { track("cta_click", { location: "header", cta: "get_started" }); scrollToProducts(); }}>
               Get Started
             </Button>
           </div>

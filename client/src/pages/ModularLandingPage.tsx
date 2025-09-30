@@ -4,6 +4,7 @@ import ProductCards from "@/components/landing/ProductCards";
 import PricingSummary from "@/components/landing/PricingSummary";
 import References from "@/components/landing/References";
 import FAQ from "@/components/landing/FAQ";
+import FeaturesOutcome from "@/components/landing/FeaturesOutcome";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import { useProductSelection } from "@/hooks/useProductSelection";
@@ -44,6 +45,8 @@ export default function ModularLandingPage() {
           />
         </div>
         
+        <FeaturesOutcome />
+
         <PricingSummary selectedModuleIds={selectedModuleIds} />
         
         <References />

@@ -379,4 +379,198 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Optional: Postgres-backed storage using Drizzle ORM
+// NOTE: Use dynamic imports so tests can run without DATABASE_URL
+
+export class PgStorage implements IStorage {
+  async getUser(id: string) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.select().from(schema.users).where(eq(schema.users.id, id)).limit(1);
+    return rows[0];
+  }
+  async getUserByUsername(username: string) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.select().from(schema.users).where(eq(schema.users.username, username)).limit(1);
+    return rows[0];
+  }
+  async getUserByEmail(email: string) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.select().from(schema.users).where(eq(schema.users.email, email)).limit(1);
+    return rows[0];
+  }
+  async createUser(insertUser: InsertUser) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.users).values(insertUser).returning();
+    return rows[0];
+  }
+  async updateUser(id: string, updates: Partial<User>) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.update(schema.users).set(updates).where(eq(schema.users.id, id)).returning();
+    return rows[0];
+  }
+  async createLead(insertLead: InsertLead) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.leads).values(insertLead).returning();
+    return rows[0];
+  }
+  async getLeads() {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { desc } = await import("drizzle-orm");
+    return db.select().from(schema.leads).orderBy(desc(schema.leads.createdAt));
+  }
+  async createContact(insertContact: InsertContact) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.contacts).values(insertContact).returning();
+    return rows[0];
+  }
+  async getContacts() {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { desc } = await import("drizzle-orm");
+    return db.select().from(schema.contacts).orderBy(desc(schema.contacts.createdAt));
+  }
+  async updateContactStatus(id: string, status: string) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.update(schema.contacts).set({ status }).where(eq(schema.contacts.id, id)).returning();
+    return rows[0];
+  }
+  async createSubscription(insertSubscription: InsertSubscription) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.subscriptions).values(insertSubscription).returning();
+    return rows[0];
+  }
+  async getUserSubscriptions(userId: string) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq, desc } = await import("drizzle-orm");
+    return db.select().from(schema.subscriptions).where(eq(schema.subscriptions.userId, userId)).orderBy(desc(schema.subscriptions.createdAt));
+  }
+  async updateSubscription(id: string, updates: Partial<Subscription>) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.update(schema.subscriptions).set(updates).where(eq(schema.subscriptions.id, id)).returning();
+    return rows[0];
+  }
+  async createAgentConfig(insertConfig: InsertAgentConfig) {
+    const { db, ensureDbConnected } = await import("./db/client");
+    await ensureDbConnected();
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.agentConfigs).values(insertConfig).returning();
+    return rows[0];
+  }
+  async getUserAgentConfigs(userId: string) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq, desc } = await import("drizzle-orm");
+    return db.select().from(schema.agentConfigs).where(eq(schema.agentConfigs.userId, userId)).orderBy(desc(schema.agentConfigs.updatedAt));
+  }
+  async getAgentConfig(id: string) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.select().from(schema.agentConfigs).where(eq(schema.agentConfigs.id, id)).limit(1);
+    return rows[0];
+  }
+  async updateAgentConfig(id: string, updates: Partial<AgentConfig>) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.update(schema.agentConfigs).set(updates).where(eq(schema.agentConfigs.id, id)).returning();
+    return rows[0];
+  }
+  async createChatSession(insertSession: InsertChatSession) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.chatSessions).values(insertSession).returning();
+    return rows[0];
+  }
+  async getChatSession(id: string) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.select().from(schema.chatSessions).where(eq(schema.chatSessions.id, id)).limit(1);
+    return rows[0];
+  }
+  async updateChatSession(id: string, updates: Partial<ChatSession>) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.update(schema.chatSessions).set(updates).where(eq(schema.chatSessions.id, id)).returning();
+    return rows[0];
+  }
+  async createChatMessage(insertMessage: InsertChatMessage) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.chatMessages).values(insertMessage).returning();
+    return rows[0];
+  }
+  async getChatMessages(sessionId: string) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    return db.select().from(schema.chatMessages).where(eq(schema.chatMessages.sessionId, sessionId)).orderBy(schema.chatMessages.timestamp);
+  }
+  async createPhoneCall(callData: Omit<PhoneCall, 'id' | 'createdAt'>) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.phoneCalls).values(callData as any).returning();
+    return rows[0];
+  }
+  async getPhoneCalls(agentConfigId: string) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq, desc } = await import("drizzle-orm");
+    return db.select().from(schema.phoneCalls).where(eq(schema.phoneCalls.agentConfigId, agentConfigId)).orderBy(desc(schema.phoneCalls.createdAt));
+  }
+  async createSocialPost(postData: Omit<SocialPost, 'id' | 'createdAt'>) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const rows = await db.insert(schema.socialPosts).values(postData as any).returning();
+    return rows[0];
+  }
+  async getSocialPosts(agentConfigId: string) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq, desc } = await import("drizzle-orm");
+    return db.select().from(schema.socialPosts).where(eq(schema.socialPosts.agentConfigId, agentConfigId)).orderBy(desc(schema.socialPosts.createdAt));
+  }
+  async updateSocialPost(id: string, updates: Partial<SocialPost>) {
+    const { db } = await import("./db/client");
+    const schema = await import("@shared/schema");
+    const { eq } = await import("drizzle-orm");
+    const rows = await db.update(schema.socialPosts).set(updates).where(eq(schema.socialPosts.id, id)).returning();
+    return rows[0];
+  }
+}
+
+// Choose storage based on env
+export const storage: IStorage = process.env.USE_DB === "true" ? new PgStorage() : new MemStorage();

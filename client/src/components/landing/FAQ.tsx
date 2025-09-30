@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { HelpCircle, MessageCircle } from "lucide-react";
 import { HolographicCard } from "@/components/HolographicUI";
+import { track } from "@/lib/analytics";
 
 interface FAQItem {
   id: string;
@@ -83,6 +84,7 @@ export default function FAQ() {
   );
 
   const scrollToContact = () => {
+    track("cta_click", { location: "faq", cta: "contact_expert" });
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 

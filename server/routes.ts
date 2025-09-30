@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertLeadSchema, insertContactSchema } from "@shared/schema";
+import { insertLeadSchema, insertContactSchema, type User, type InsertUser } from "@shared/schema";
 import { z } from "zod";
 import Stripe from "stripe";
 import { generateChatResponse, type KnowledgeBase } from "./services/openai";
@@ -100,7 +100,78 @@ function getStripe(): Stripe {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Ensure a demo user exists and return it (used for seeded demo data)
+  async function ensureDemoUser(): Promise<User> {
+    const demoEmail = "demo@aidevelo.ai";
+    const existing = await storage.getUserByEmail(demoEmail);
+    if (existing) return existing;
+    const create: InsertUser = {
+      username: "demo",
+      password: "demo",
+      email: demoEmail,
+      firstName: "Demo",
+      lastName: "User",
+      company: "AIDevelo.AI",
+    };
+    return await storage.createUser(create);
+  }
+  // Health and version endpoints
+  app.get("/api/health", async (_req, res) => {
+    let dbOk = false;
+    try {
+      const { Pool } = await import("pg");
+      const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+      const result = await pool.query("SELECT 1 as ok");
+      dbOk = result.rows?.[0]?.ok === 1;
+      await pool.end();
+    } catch {
+      dbOk = false;
+    }
 
+    res.json({ ok: true, db: dbOk, env: process.env.NODE_ENV || "development" });
+  });
+
+  app.get("/api/version", async (_req, res) => {
+    try {
+      const { readFile } = await import("fs/promises");
+      const { join } = await import("path");
+      const pkgPath = join(process.cwd(), "package.json");
+      const pkgRaw = await readFile(pkgPath, "utf8");
+      const pkg = JSON.parse(pkgRaw);
+      res.json({ name: pkg.name, version: pkg.version });
+    } catch {
+      res.json({ name: "app", version: "0.0.0" });
+    }
+  });
+
+  // Admin - reset and seed demo data (use with caution in dev)
+  app.post("/api/admin/reset", async (_req, res) => {
+    try {
+      const { Pool } = await import("pg");
+      const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+      // Truncate all data (respecting foreign keys)
+      await pool.query(
+        `TRUNCATE chat_messages, chat_sessions, phone_calls, social_posts, contacts, leads, subscriptions, agent_configs, users RESTART IDENTITY CASCADE;`
+      );
+      await pool.end();
+
+      const demo = await ensureDemoUser();
+
+      // Seed minimal demo like /api/demo-data
+      await storage.createSubscription({ userId: demo.id, moduleId: "chat", price: 4900, status: "active", stripeSubscriptionId: "sub_chat_demo_123", startDate: new Date() });
+      await storage.createSubscription({ userId: demo.id, moduleId: "phone", price: 7900, status: "active", stripeSubscriptionId: "sub_phone_demo_123", startDate: new Date() });
+      await storage.createSubscription({ userId: demo.id, moduleId: "social", price: 5900, status: "active", stripeSubscriptionId: "sub_social_demo_123", startDate: new Date() });
+
+      await storage.createAgentConfig({ userId: demo.id, moduleId: "chat", isActive: true, configuration: { name: "Demo Chat Agent", model: "gpt-4", temperature: 0.7, maxTokens: 150 }, knowledgeBase: { companyInfo: "AIDevelo.AI", services: ["AI Chat"], faq: [] } });
+      await storage.createAgentConfig({ userId: demo.id, moduleId: "phone", isActive: true, configuration: { name: "Demo Phone Agent", model: "gpt-4", temperature: 0.7, maxTokens: 200 }, knowledgeBase: { companyInfo: "AIDevelo.AI", services: ["AI Phone"], faq: [] } });
+      await storage.createAgentConfig({ userId: demo.id, moduleId: "social", isActive: true, configuration: { name: "Demo Social Agent", model: "gpt-4", temperature: 0.8, maxTokens: 180 }, knowledgeBase: { companyInfo: "AIDevelo.AI", services: ["AI Social"], faq: [] } });
+
+      res.json({ ok: true, message: "Database reset and demo data seeded" });
+    } catch (err) {
+      console.error("/api/admin/reset failed", err);
+      res.status(500).json({ ok: false, message: "Reset failed" });
+    }
+  });
 
   // Get all contacts endpoint (for potential admin dashboard)
   app.get("/api/contacts", async (req, res) => {
@@ -173,18 +244,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Dashboard API - Get user dashboard data
   app.get("/api/dashboard", async (req, res) => {
     try {
-      // For demo purposes, use a mock user ID
-      // In production, this would come from authentication
-      const mockUserId = "demo-user-123";
+      // Use or create a demo user (in a real app, use auth user)
+      const demoUser = await ensureDemoUser();
+      const demoUserId = demoUser.id;
       
-      let subscriptions = await storage.getUserSubscriptions(mockUserId);
-      let agentConfigs = await storage.getUserAgentConfigs(mockUserId);
+      let subscriptions = await storage.getUserSubscriptions(demoUserId);
+      let agentConfigs = await storage.getUserAgentConfigs(demoUserId);
       
       // If no data exists, create demo data for immediate testing
       if (subscriptions.length === 0) {
         // Create demo subscriptions for all three products
         await storage.createSubscription({
-          userId: mockUserId,
+          userId: demoUserId,
           moduleId: "chat",
           price: 4900,
           status: "active",
@@ -193,7 +264,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         await storage.createSubscription({
-          userId: mockUserId,
+          userId: demoUserId,
           moduleId: "phone", 
           price: 7900,
           status: "active",
@@ -202,7 +273,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         await storage.createSubscription({
-          userId: mockUserId,
+          userId: demoUserId,
           moduleId: "social",
           price: 5900,
           status: "active", 
@@ -212,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Create demo agent configurations
         await storage.createAgentConfig({
-          userId: mockUserId,
+          userId: demoUserId,
           moduleId: "chat",
           isActive: true,
           configuration: {
@@ -229,7 +300,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         await storage.createAgentConfig({
-          userId: mockUserId,
+          userId: demoUserId,
           moduleId: "phone",
           isActive: true,
           configuration: {
@@ -246,7 +317,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         await storage.createAgentConfig({
-          userId: mockUserId,
+          userId: demoUserId,
           moduleId: "social",
           isActive: true,
           configuration: {
@@ -263,8 +334,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
         
         // Refresh data after creation
-        subscriptions = await storage.getUserSubscriptions(mockUserId);
-        agentConfigs = await storage.getUserAgentConfigs(mockUserId);
+        subscriptions = await storage.getUserSubscriptions(demoUserId);
+        agentConfigs = await storage.getUserAgentConfigs(demoUserId);
       }
       
       // Calculate stats from agent configs
@@ -475,7 +546,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         let agentConfig = await storage.getAgentConfig(session.agentConfigId);
         if (!agentConfig) {
           // Check if there's already a default chat config for this user to avoid duplicates
-          const existingConfigs = await storage.getUserAgentConfigs("demo-user-123");
+          const demoUser = await ensureDemoUser();
+          const existingConfigs = await storage.getUserAgentConfigs(demoUser.id);
           const existingChatConfig = existingConfigs.find(config => config.moduleId === "chat");
           
           if (existingChatConfig) {
@@ -486,7 +558,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           } else {
             // Create a new default agent configuration
             const defaultConfig = {
-              userId: "demo-user-123",
+              userId: demoUser.id,
               moduleId: "chat",
               isActive: true,
               configuration: {
@@ -578,7 +650,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create demo data endpoint for testing - Pro Account with All Products
   app.post("/api/demo-data", async (req, res) => {
     try {
-      const mockUserId = "pro-user-123";
+      const demoUser = await ensureDemoUser();
+      const mockUserId = demoUser.id;
       
       // Create PRO subscriptions for ALL products
       await storage.createSubscription({
@@ -931,6 +1004,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Post scheduling failed"
       });
     }
+  });
+
+  // Email welcome endpoint (Resend optional)
+  app.post("/api/mail/welcome", async (req, res) => {
+    try {
+      const { email, name } = req.body || {};
+      if (!email) return res.status(400).json({ ok: false, message: "email required" });
+
+      if (process.env.RESEND_API_KEY) {
+        const { Resend } = await import("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: process.env.MAIL_FROM || "AIDevelo <hello@aidevelo.ai>",
+          to: email,
+          subject: "Willkommen bei AIDevelo.AI",
+          html: `<p>Hi ${name || "there"}, willkommen! Lass uns starten.</p>`
+        });
+      } else {
+        console.log("[MAIL:WELCOME]", { email, name });
+      }
+
+      res.json({ ok: true });
+    } catch (err) {
+      console.error("welcome mail failed", err);
+      res.status(500).json({ ok: false });
+    }
+  });
+
+  // R2 presign stub (replace with Cloudflare R2 SDK in prod)
+  app.post("/api/uploads/presign", async (req, res) => {
+    const { filename, contentType } = req.body || {};
+    if (!filename) return res.status(400).json({ ok: false, message: "filename required" });
+    // Stub URL (dev): client uploads directly to server, or use a mock URL
+    res.json({ ok: true, url: `/uploads/${encodeURIComponent(filename)}`, headers: { "Content-Type": contentType || "application/octet-stream" } });
   });
 
   // Serve widget.js file for external embedding

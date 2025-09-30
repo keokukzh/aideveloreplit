@@ -8,7 +8,7 @@ import { type PricingCalculation, type Module } from './types';
  */
 export function calculatePricing(selectedModuleIds: string[]): PricingCalculation {
   // Deduplicate IDs first, then get selected modules
-  const uniqueIds = [...new Set(selectedModuleIds)];
+  const uniqueIds = Array.from(new Set(selectedModuleIds));
   const selectedModules: Module[] = uniqueIds
     .map(id => getModuleById(id))
     .filter((module): module is Module => module !== undefined);

@@ -140,7 +140,8 @@ Instructions:
 - Respond in JSON format with: response, shouldBookAppointment, appointmentDetails, summary
 `;
 
-    const response = await openai.chat.completions.create({
+    const client = getOpenAIClient();
+    const response = await client.chat.completions.create({
       model: "gpt-5", // the newest OpenAI model is "gpt-5" which was released August 7, 2025
       messages: [
         { role: "system", content: systemPrompt },
@@ -200,7 +201,8 @@ Respond in JSON format with: content, hashtags (array), suggestedImagePrompt
 Make content engaging and platform-appropriate.
 `;
 
-    const response = await openai.chat.completions.create({
+    const client = getOpenAIClient();
+    const response = await client.chat.completions.create({
       model: "gpt-5", // the newest OpenAI model is "gpt-5" which was released August 7, 2025
       messages: [
         { role: "system", content: systemPrompt },
@@ -256,7 +258,8 @@ Provide:
 Respond in JSON format with: sentiment, leadScore, extractedInfo, summary
 `;
 
-    const response = await openai.chat.completions.create({
+    const client = getOpenAIClient();
+    const response = await client.chat.completions.create({
       model: "gpt-5", // the newest OpenAI model is "gpt-5" which was released August 7, 2025
       messages: [
         { role: "system", content: systemPrompt },

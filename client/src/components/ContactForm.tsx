@@ -15,6 +15,7 @@ import { HolographicCard, HolographicButton } from "./HolographicUI";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { track } from "@/lib/analytics";
 
 const contactFormSchema = z.object({
   firstName: z.string().min(2, "Vorname muss mindestens 2 Zeichen haben"),
@@ -110,6 +111,9 @@ export default function ContactForm() {
       return response.json();
     },
     onSuccess: () => {
+      track("lead_created");
+      // fire welcome mail (best-effort)
+      try { void apiRequest('POST', '/api/mail/welcome', { email: form.getValues("email"), name: form.getValues("firstName") }); } catch {}
       setIsSubmitted(true);
       toast({
         title: "Anfrage gesendet!",
@@ -127,6 +131,7 @@ export default function ContactForm() {
   });
 
   const onSubmit = (data: ContactFormData) => {
+    track("lead_submit", { industry: data.industry, employeeCount: data.employeeCount, modules: data.interestedModules });
     submitMutation.mutate(data);
   };
 

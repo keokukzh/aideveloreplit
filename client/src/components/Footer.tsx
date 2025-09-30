@@ -1,4 +1,5 @@
 import signatureLogoImage from "@assets/IMG_0831 (3)_1758861135123.png";
+import { track } from "@/lib/analytics";
 
 export default function Footer() {
   return (
@@ -27,6 +28,7 @@ export default function Footer() {
               href="mailto:hello@aidevelo.ai" 
               className="text-base font-medium text-primary hover:text-primary/80 transition-colors" 
               data-testid="link-email"
+              onClick={() => track("cta_click", { location: "footer", cta: "email" })}
             >
               hello@aidevelo.ai
             </a>
@@ -42,27 +44,27 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4" data-testid="title-product">Products</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#products" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-products-footer">AI Agents</a></li>
-              <li><a href="#pricing-summary" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-pricing-footer">Pricing</a></li>
-              <li><a href="#references" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-references-footer">References</a></li>
+              <li><a href="#products" onClick={() => track("nav_click", { location: "footer", link: "products" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-products-footer">AI Agents</a></li>
+              <li><a href="#pricing-summary" onClick={() => track("nav_click", { location: "footer", link: "pricing" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-pricing-footer">Pricing</a></li>
+              <li><a href="#references" onClick={() => track("nav_click", { location: "footer", link: "references" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-references-footer">References</a></li>
             </ul>
           </div>
           
           <div className="text-center">
             <h3 className="font-semibold mb-4" data-testid="title-company">Company</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">About</a></li>
-              <li><a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-contact">Contact</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-blog">Blog</a></li>
+              <li><a href="#" onClick={() => track("nav_click", { location: "footer", link: "about" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">About</a></li>
+              <li><a href="#contact" onClick={() => track("nav_click", { location: "footer", link: "contact" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-contact">Contact</a></li>
+              <li><a href="#" onClick={() => track("nav_click", { location: "footer", link: "blog" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-blog">Blog</a></li>
             </ul>
           </div>
           
           <div className="text-right">
             <h3 className="font-semibold mb-4" data-testid="title-legal">Legal</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Privacy Policy</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-imprint">Imprint</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">Terms</a></li>
+              <li><a href="#" onClick={() => track("nav_click", { location: "footer", link: "privacy" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">Privacy Policy</a></li>
+              <li><a href="#" onClick={() => track("nav_click", { location: "footer", link: "imprint" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-imprint">Imprint</a></li>
+              <li><a href="#" onClick={() => track("nav_click", { location: "footer", link: "terms" })} className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">Terms</a></li>
             </ul>
           </div>
         </div>

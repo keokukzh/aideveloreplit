@@ -1,0 +1,77 @@
+# aidevelo.ai — Cursor Project Rules
+
+## Project Context
+- Name: **aidevelo.ai**
+- Monorepo:
+  - `/client`: Vite + React + Tailwind + **shadcn/ui**
+  - `/server`: Cloudflare **Workers** (Hono) + **Drizzle** ORM (Neon Postgres)
+  - `/shared`: gemeinsame Types/Schemas
+- Hosting/Infra:
+  - Frontend → **Cloudflare Pages**
+  - API → **Cloudflare Workers**
+  - DB → **Neon Postgres** (`sslmode=require`)
+  - Storage → **Cloudflare R2** (nur **presigned uploads**)
+  - Mail → **Resend**
+  - Analytics → **PostHog**, Monitoring → **Sentry**
+- Auth:
+  - **Auth.js (Credentials)**, **JWT Sessions** (Workers-freundlich)
+  - Login-Route: `/login`, geschützte Seiten nur für eingeloggte Nutzer
+
+## Coding Guidelines
+- **TypeScript strict**, **ESM** Imports.
+- **Tailwind** + **shadcn/ui**. Keine weiteren UI-Frameworks.
+- Minimalistisch, responsive, klare Hierarchie (Spacing, Typo, Kontrast).
+- Bevorzuge **kleine, fokussierte Diffs** und Wiederverwendung bestehender Patterns.
+- Fehlerantworten: JSON `{ error, details? }` mit korrekten HTTP-Statuscodes.
+
+## Backend Rules (Workers + Hono)
+- Routen:
+  - `GET /api/health`, `GET /api/version`
+  - **Auth.js** Standardrouten unter `/api/auth/*` (JWT Sessions)
+  - **Leads CRUD** unter `/api/leads`
+  - `POST /api/uploads/presign` (R2, presigned URL)
+  - `POST /api/mail/welcome` (Resend)
+- DB-Zugriff via **Drizzle** (Neon HTTP/Serverless). Migrationen mit **drizzle-kit**.
+- Gemeinsame Typen unter `/shared`. Keine zusätzlichen Server-Frameworks.
+
+## Frontend Rules (Vite + React)
+- Seiten: `/` (Landing), `/login`, `/leads` (geschützt).
+- Landing Sections: **Hero**, **Features**, **Social Proof**, **Pricing** (optional), **FAQ**, **Footer**.
+- Data-Fetch: `fetch` oder **TanStack Query** (wenn nötig), kein Overengineering.
+- Analytics: Track **page_view**, **lead_created**, **auth_login** (PostHog).
+- Sentry: Init + ErrorBoundary um `<App />`.
+- SEO: Title, Description, OG-Tags; `sitemap.xml` & `robots.txt`.
+
+## Tests & CI
+- **Vitest**: mind. 1 Happy-Path-Test pro Ressource.
+- **GitHub Actions**:
+  - `ci.yml`: install → typecheck → build → test
+  - `deploy-pages.yml`: Client zu Cloudflare Pages
+  - `deploy-workers.yml`: API zu Workers
+- **drizzle:generate** & **drizzle:migrate** nur bei Bedarf/auf `main`.
+
+## Business & UX Focus
+- Zielgruppe: Startups/Dev-Teams → **Outcome-orientierte Copy** (Nutzen vor Features).
+- CTAs klar und mehrfach (Hero/Mitte/Footer).
+- Formulare auf Reibungslosigkeit prüfen (Zustände: loading/error/success).
+- Accessibility (Keyboard-Nav, Labels, Kontrast) im Blick behalten.
+
+## Commands the assistant may assume/run (ausgeben, nicht stillschweigend ausführen)
+- `pnpm i`
+- `pnpm drizzle:generate && pnpm drizzle:migrate`
+- `pnpm run db:seed`
+- `pnpm -C server wrangler dev --local --persist`
+- `pnpm -C client dev`
+
+## Definition of Done (DoD)
+- Läuft lokal: **/api/health** ⇒ 200, **/leads** CRUD funktioniert mit Auth.
+- UI: responsive, konsistent, CTAs sichtbar; SEO-Basics gesetzt.
+- Tracking: PostHog-Events feuern; Sentry empfängt Test-Error.
+- README aktualisiert (Setup/Env/Run/Deploy/Troubleshooting).
+- Änderungen sind **minimal**, begründet und getestet.
+
+## Non-Goals
+- Keine zusätzlichen State-Manager/Queues/Redis.
+- Kein komplexes Auth-Federation/OAuth (später optional).
+- Keine großen UI-Overhauls ohne Business-Nutzen.
+
