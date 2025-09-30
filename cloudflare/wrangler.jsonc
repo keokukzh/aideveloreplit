@@ -11,8 +11,8 @@
 		"global_fetch_strictly_public"
 	],
 	"assets": {
-		// The path to the directory containing the `index.html` file to be served at `/`
-		"directory": "./public"
+		"directory": "../client/dist",
+		"html_handling": "single_page_application"
 	},
 	"observability": {
 		"enabled": true

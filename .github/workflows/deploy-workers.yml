@@ -22,14 +22,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Wrangler
-        run: npm i -g wrangler@3
+      - name: Setup PNPM
+        run: npm i -g pnpm@9
 
-      - name: Publish Worker
+      - name: Install Wrangler
+        run: pnpm i -g wrangler@4
+
+      - name: Build client
+        run: pnpm -C client i && pnpm -C client build
+
+      - name: Publish Worker (client dist as assets)
         working-directory: cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: wrangler deploy --minify
+        run: npx wrangler deploy --minify
 
 
