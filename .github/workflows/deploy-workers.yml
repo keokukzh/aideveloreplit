@@ -25,9 +25,6 @@ jobs:
       - name: Setup PNPM
         run: npm i -g pnpm@9
 
-      - name: Install Wrangler
-        run: pnpm i -g wrangler@4
-
       - name: Build client
         run: pnpm -C client i && pnpm -C client build
 
